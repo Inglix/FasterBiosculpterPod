@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<Faster_Biosculpter_Pod>Faster Biosculpter Pod</Faster_Biosculpter_Pod>
+
+	<Healing>Healing</Healing>
+	<Age_Reversal>Age Reversal</Age_Reversal>
+	<Pleasure>Pleasure</Pleasure>
+	
+	<Cycle_Durations>Cycle Durations</Cycle_Durations>
+	<Cycle_Nutrition_Requirements>Cycle Nutrition Requirements</Cycle_Nutrition_Requirements>
+	<Biotuning_Duration>Biotuning Duration</Biotuning_Duration>
+	<Years_Reversed>Age Reversed</Years_Reversed>
+	<Base_Power_Consumption>Base Power Consumption</Base_Power_Consumption>
+	
+	<Apply_Custom_Values>Apply Custom Values</Apply_Custom_Values>
+	<Apply_Recommended_Values>Apply Recommended Values</Apply_Recommended_Values>
+	<Apply_Vanilla_Values>Apply Vanilla Values</Apply_Vanilla_Values>
+</LanguageData>
