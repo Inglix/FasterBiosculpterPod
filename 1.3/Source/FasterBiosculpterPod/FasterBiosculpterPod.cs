@@ -7,30 +7,36 @@ using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using Verse;
+using SettingsHelper;
 
 namespace FasterBiosculpterPod
 {
     public class FasterBiosculpterPod_Settings : ModSettings
     {
-        public const int VanillaBiotuningDurationTicks = 3600000;
-        public const int RecommendedBiotuningDurationTicks = 900000;
+        public const float VanillaMedicCycleDays = 6f;
+        public const float VanillaMedicCycleNutrition = 5f;
+        public const float RecommendedMedicCycleDays = 1.5f;
+        public const float RecommendedMedicCycleNutrition = 1.3f;
 
+        public const float VanillaBioregenerationCycleDays = 25f;
+        public const float VanillaBioregenerationCycleNutrition = 30f;
+        public const float RecommendedBioregenerationCycleDays = 6.3f;
+        public const float RecommendedBioregenerationCycleNutrition = 7.5f;
+
+        public const float VanillaAgeReversalCycleDays = 8f;
+        public const float VanillaAgeReversalCycleNutrition = 5f;
         public const int VanillaAgeReversalTicks = 3600000;
+        public const float RecommendedAgeReversalCycleDays = 2f;
+        public const float RecommendedAgeReversalCycleNutrition = 1.3f;
         public const int RecommendedAgeReversalTicks = 3600000;
 
-        public const float VanillaAgeReversalCycleDays = 10f;
-        public const float RecommendedAgeReversalCycleDays = 2.5f;
-        public const float VanillaHealingCycleDays = 10f;
-        public const float RecommendedHealingCycleDays = 2.5f;
         public const float VanillaPleasureCycleDays = 4f;
-        public const float RecommendedPleasureCycleDays = 1f;
-
-        public const float VanillaAgeReversalCycleNutrition = 10f;
-        public const float RecommendedAgeReversalCycleNutrition = 2.5f;
-        public const float VanillaHealingCycleNutrition = 10f;
-        public const float RecommendedHealingCycleNutrition = 2.5f;
         public const float VanillaPleasureCycleNutrition = 5f;
-        public const float RecommendedPleasureCycleNutrition = 1.25f;
+        public const float RecommendedPleasureCycleDays = 1f;
+        public const float RecommendedPleasureCycleNutrition = 1.3f;
+
+        public const int VanillaBiotuningDurationTicks = 3600000;
+        public const int RecommendedBiotuningDurationTicks = 900000;
 
         public const float VanillaPowerConsumption = 150f;
         public const float RecommendedPowerConsumption = 600f;
@@ -38,33 +44,37 @@ namespace FasterBiosculpterPod
         public const string BiosculpterPodDescription = "An immersive pod equipped with a biosculpting fluid injector and attached control system. It can perform a variety of biological alterations including age reversal and pleasure-giving. Each pod becomes biotuned to its user, and cannot be used by anyone else. Biotuning resets after {0} days. Believers in transhumanism believe biosculpter pods are of critical importance in their quest to transcend normal human physical limitations.";
         public const string BiosculpterPodDescriptionNoBiotuning = "An immersive pod equipped with a biosculpting fluid injector and attached control system. It can perform a variety of biological alterations including age reversal and pleasure-giving. Believers in transhumanism believe biosculpter pods are of critical importance in their quest to transcend normal human physical limitations.";
 
-        public int BiotuningDurationTicks = RecommendedBiotuningDurationTicks;
+        public float BiotuningDurationTicks = RecommendedBiotuningDurationTicks;
 
-        public int AgeReversalTicks = RecommendedAgeReversalTicks;
+        public float AgeReversalTicks = RecommendedAgeReversalTicks;
 
+        public float MedicCycleDays = RecommendedMedicCycleDays;
+        public float MedicCycleNutrition = RecommendedMedicCycleNutrition;
+        public float BioregenerationCycleDays = RecommendedBioregenerationCycleDays;
+        public float BioregenerationCycleNutrition = RecommendedBioregenerationCycleNutrition;
         public float AgeReversalCycleDays = RecommendedAgeReversalCycleDays;
-        public float HealingCycleDays = RecommendedHealingCycleDays;
-        public float PleasureCycleDays = RecommendedPleasureCycleDays;
-
         public float AgeReversalCycleNutrition = RecommendedAgeReversalCycleNutrition;
-        public float HealingCycleNutrition = RecommendedHealingCycleNutrition;
+        public float PleasureCycleDays = RecommendedPleasureCycleDays;
         public float PleasureCycleNutrition = RecommendedPleasureCycleNutrition;
 
         public float PowerConsumption = RecommendedPowerConsumption;
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref BiotuningDurationTicks, "biotuningDurationTicks", RecommendedBiotuningDurationTicks);
+            Scribe_Values.Look(ref MedicCycleDays, "medicCycleDays", RecommendedMedicCycleDays);
+            Scribe_Values.Look(ref MedicCycleNutrition, "medicCycleNutrition", RecommendedMedicCycleNutrition);
 
-            Scribe_Values.Look(ref AgeReversalTicks, "ageReversalTicks", RecommendedAgeReversalTicks);
+            Scribe_Values.Look(ref BioregenerationCycleDays, "bioregenerationCycleDays", RecommendedBioregenerationCycleDays);
+            Scribe_Values.Look(ref BioregenerationCycleNutrition, "bioregenerationCycleNutrition", RecommendedBioregenerationCycleNutrition);
 
             Scribe_Values.Look(ref AgeReversalCycleDays, "ageReversalCycleDays", RecommendedAgeReversalCycleDays);
-            Scribe_Values.Look(ref HealingCycleDays, "healingCycleDays", RecommendedHealingCycleDays);
-            Scribe_Values.Look(ref PleasureCycleDays, "pleasureCycleDays", RecommendedPleasureCycleDays);
-
             Scribe_Values.Look(ref AgeReversalCycleNutrition, "ageReversalCycleNutrition", RecommendedAgeReversalCycleNutrition);
-            Scribe_Values.Look(ref HealingCycleNutrition, "healingCycleNutrition", RecommendedHealingCycleNutrition);
+            Scribe_Values.Look(ref AgeReversalTicks, "ageReversalTicks", RecommendedAgeReversalTicks);
+
+            Scribe_Values.Look(ref PleasureCycleDays, "pleasureCycleDays", RecommendedPleasureCycleDays);
             Scribe_Values.Look(ref PleasureCycleNutrition, "pleasureCycleNutrition", RecommendedPleasureCycleNutrition);
+
+            Scribe_Values.Look(ref BiotuningDurationTicks, "biotuningDurationTicks", RecommendedBiotuningDurationTicks);
 
             Scribe_Values.Look(ref PowerConsumption, "powerConsumption", RecommendedPowerConsumption);
 
@@ -75,120 +85,98 @@ namespace FasterBiosculpterPod
     public class FasterBiosculpterPod_Mod : Mod
     {
         public static FasterBiosculpterPod_Settings settings;
+        private Vector2 scrollPosition;
 
         public FasterBiosculpterPod_Mod(ModContentPack content) : base(content)
         {
             settings = GetSettings<FasterBiosculpterPod_Settings>();
         }
 
-        public override void DoSettingsWindowContents(Rect inRect)
+        public override void DoSettingsWindowContents(Rect canvas)
         {
-            Listing_Standard listingStandard = new Listing_Standard();
-            float leftRectPadding = 10f;
-            float rightRectPct = 0.80f;
+            const float LeftPartPct = 0.2f;
 
-            listingStandard.Begin(inRect);
-            Rect rectLeft = listingStandard.GetRect(Text.LineHeight);
-            rectLeft.y += leftRectPadding;
-            Widgets.DrawLineHorizontal(0, rectLeft.y, inRect.width);
-            rectLeft.y += leftRectPadding * 2;
-            Widgets.Label(rectLeft, "Cycle_Durations".Translate());
-            rectLeft.y += leftRectPadding + Text.LineHeight;
-            Rect rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Healing".Translate());
-            settings.HealingCycleDays = Widgets.HorizontalSlider(rectRight, settings.HealingCycleDays, 0f, 60f, true, settings.HealingCycleDays.ToString() + " days", null, null, 0.1f);
-            rectLeft.y += leftRectPadding + Text.LineHeight;
-            rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Age_Reversal".Translate());
-            settings.AgeReversalCycleDays = Widgets.HorizontalSlider(rectRight, settings.AgeReversalCycleDays, 0f, 60f, true, settings.AgeReversalCycleDays.ToString() + " days", null, null, 0.1f);
-            rectLeft.y += leftRectPadding + Text.LineHeight;
-            rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Pleasure".Translate());
-            settings.PleasureCycleDays = Widgets.HorizontalSlider(rectRight, settings.PleasureCycleDays, 0f, 60f, true, settings.PleasureCycleDays.ToString() + " days", null, null, 0.1f);
-            rectLeft.y += leftRectPadding * 2 + Text.LineHeight;
-            Widgets.DrawLineHorizontal(0, rectLeft.y, inRect.width);
-            rectLeft.y += leftRectPadding * 2;
-            Widgets.Label(rectLeft, "Cycle_Nutrition_Requirements".Translate());
-            rectLeft.y += leftRectPadding + Text.LineHeight;
-            rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Healing".Translate());
-            settings.HealingCycleNutrition = Widgets.HorizontalSlider(rectRight, settings.HealingCycleNutrition, 0f, 60f, true, settings.HealingCycleNutrition.ToString() + " nutrition", null, null, 0.1f);
-            rectLeft.y += leftRectPadding + Text.LineHeight;
-            rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Age_Reversal".Translate());
-            settings.AgeReversalCycleNutrition = Widgets.HorizontalSlider(rectRight, settings.AgeReversalCycleNutrition, 0f, 60f, true, settings.AgeReversalCycleNutrition.ToString() + " nutrition", null, null, 0.1f);
-            rectLeft.y += leftRectPadding + Text.LineHeight;
-            rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Pleasure".Translate());
-            settings.PleasureCycleNutrition = Widgets.HorizontalSlider(rectRight, settings.PleasureCycleNutrition, 0f, 60f, true, settings.PleasureCycleNutrition.ToString() + " nutrition", null, null, 0.1f);
-            rectLeft.y += leftRectPadding * 2 + Text.LineHeight;
-            Widgets.DrawLineHorizontal(0, rectLeft.y, inRect.width);
-            rectLeft.y += leftRectPadding * 2;
-            rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Biotuning_Duration".Translate());
-            settings.BiotuningDurationTicks = (int)Widgets.HorizontalSlider(rectRight, settings.BiotuningDurationTicks, 0, 21600000, true, settings.BiotuningDurationTicks.ToStringTicksToDays("F0"), null, null, 60000);
-            rectLeft.y += leftRectPadding * 2 + Text.LineHeight;
-            Widgets.DrawLineHorizontal(0, rectLeft.y, inRect.width);
-            rectLeft.y += leftRectPadding * 2;
-            rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Years_Reversed".Translate());
-            settings.AgeReversalTicks = (int)Widgets.HorizontalSlider(rectRight, settings.AgeReversalTicks, 0, 72000000, true, settings.AgeReversalTicks.ToStringTicksToDays("F0"), null, null, 60000);
-            rectLeft.y += leftRectPadding * 2 + Text.LineHeight;
-            Widgets.DrawLineHorizontal(0, rectLeft.y, inRect.width);
-            rectLeft.y += leftRectPadding * 2;
-            rectRight = rectLeft.RightPart(rightRectPct).Rounded();
-            Widgets.Label(rectLeft, "Base_Power_Consumption".Translate());
-            settings.PowerConsumption = Widgets.HorizontalSlider(rectRight, settings.PowerConsumption, 0f, 900f, true, settings.PowerConsumption.ToString() + " W", null, null, 1f);
-            rectLeft.y += leftRectPadding * 2 + Text.LineHeight;
-            Widgets.DrawLineHorizontal(0, rectLeft.y, inRect.width);
-            rectLeft.y += leftRectPadding * 2;
-            rectLeft.height = 30f;
-            rectLeft.width = inRect.width * 0.3f;
-            if (Widgets.ButtonText(rectLeft, "Apply_Custom_Values".Translate()))
+            Rect outRect = canvas.TopPart(0.9f);
+            Rect rect = new Rect(0f, 0f, outRect.width - 18f, 650f);
+            Widgets.BeginScrollView(outRect, ref scrollPosition, rect, true);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(rect);
+
+            listing.AddLabelLine("Medic_Cycle".Translate());
+            listing.AddLabeledSlider("Cycle_Duration".Translate(), ref settings.MedicCycleDays, 0f, 60f, null, null, 0.1f, true, settings.MedicCycleDays.ToString() + "_days".Translate(), LeftPartPct);
+            listing.AddLabeledSlider("Nutrition_Required".Translate(), ref settings.MedicCycleNutrition, 0f, 60f, null, null, 0.1f, true, settings.MedicCycleNutrition.ToString() + "_nutrition".Translate(), LeftPartPct);
+            listing.AddHorizontalLine(ListingStandardHelper.Gap);
+            listing.AddLabelLine("Bioregeneration_Cycle".Translate());
+            listing.AddLabeledSlider("Cycle_Duration".Translate(), ref settings.BioregenerationCycleDays, 0f, 60f, null, null, 0.1f, true, settings.BioregenerationCycleDays.ToString() + "_days".Translate(), LeftPartPct);
+            listing.AddLabeledSlider("Nutrition_Required".Translate(), ref settings.BioregenerationCycleNutrition, 0f, 60f, null, null, 0.1f, true, settings.BioregenerationCycleNutrition.ToString() + "_nutrition".Translate(), LeftPartPct);
+            listing.AddHorizontalLine(ListingStandardHelper.Gap);
+            listing.AddLabelLine("Age_Reversal_Cycle".Translate());
+            listing.AddLabeledSlider("Cycle_Duration".Translate(), ref settings.AgeReversalCycleDays, 0f, 60f, null, null, 0.1f, true, settings.AgeReversalCycleDays.ToString() + "_days".Translate(), LeftPartPct);
+            listing.AddLabeledSlider("Nutrition_Required".Translate(), ref settings.AgeReversalCycleNutrition, 0f, 60f, null, null, 0.1f, true, settings.AgeReversalCycleNutrition.ToString() + "_nutrition".Translate(), LeftPartPct);
+            listing.AddLabeledSlider("Age_Reversal".Translate(), ref settings.AgeReversalTicks, 0, 72000000, null, null, 60000f, true, ((int)settings.AgeReversalTicks).ToStringTicksToDays("F0"), LeftPartPct);
+            listing.AddHorizontalLine(ListingStandardHelper.Gap);
+            listing.AddLabelLine("Pleasure_Cycle".Translate());
+            listing.AddLabeledSlider("Cycle_Duration".Translate(), ref settings.PleasureCycleDays, 0f, 60f, null, null, 0.1f, true, settings.PleasureCycleDays.ToString() + "_days".Translate(), LeftPartPct);
+            listing.AddLabeledSlider("Nutrition_Required".Translate(), ref settings.PleasureCycleNutrition, 0f, 60f, null, null, 0.1f, true, settings.PleasureCycleNutrition.ToString() + "_nutrition".Translate(), LeftPartPct);
+            listing.AddHorizontalLine(ListingStandardHelper.Gap);
+            listing.AddLabeledSlider("Biotuning_Duration".Translate(), ref settings.BiotuningDurationTicks, 0, 72000000, null, null, 60000f, true, ((int)settings.BiotuningDurationTicks).ToStringTicksToDays("F0"), LeftPartPct);
+            listing.AddHorizontalLine(ListingStandardHelper.Gap);
+            listing.AddLabeledSlider("Power_Consumption".Translate(), ref settings.PowerConsumption, 0f, 10000f, null, null, 25f, true, settings.PowerConsumption.ToString() + "_W".Translate(), LeftPartPct);
+            listing.End();
+            Widgets.EndScrollView();
+
+            Rect buttonsRect = canvas.BottomPart(0.075f).LeftPart(0.3f);
+            buttonsRect.height = canvas.height * 0.05f;
+            if (Widgets.ButtonText(buttonsRect, "Apply_Custom_Values".Translate()))
             {
                 ApplySettings();
             }
-            rectLeft.x += inRect.width * 0.35f;
-            if (Widgets.ButtonText(rectLeft, "Apply_Recommended_Values".Translate()))
+            buttonsRect.x += canvas.width * 0.35f;
+            if (Widgets.ButtonText(buttonsRect, "Apply_Recommended_Values".Translate()))
             {
-                settings.HealingCycleDays = FasterBiosculpterPod_Settings.RecommendedHealingCycleDays;
-                settings.AgeReversalCycleDays = FasterBiosculpterPod_Settings.RecommendedAgeReversalCycleDays;
-                settings.PleasureCycleDays = FasterBiosculpterPod_Settings.RecommendedPleasureCycleDays;
+                settings.MedicCycleDays = FasterBiosculpterPod_Settings.RecommendedMedicCycleDays;
+                settings.MedicCycleNutrition = FasterBiosculpterPod_Settings.RecommendedMedicCycleNutrition;
 
-                settings.HealingCycleNutrition = FasterBiosculpterPod_Settings.RecommendedHealingCycleNutrition;
+                settings.BioregenerationCycleDays = FasterBiosculpterPod_Settings.RecommendedBioregenerationCycleDays;
+                settings.BioregenerationCycleNutrition = FasterBiosculpterPod_Settings.RecommendedBioregenerationCycleNutrition;
+
+                settings.AgeReversalCycleDays = FasterBiosculpterPod_Settings.RecommendedAgeReversalCycleDays;
                 settings.AgeReversalCycleNutrition = FasterBiosculpterPod_Settings.RecommendedAgeReversalCycleNutrition;
+                settings.AgeReversalTicks = FasterBiosculpterPod_Settings.RecommendedAgeReversalTicks;
+
+                settings.PleasureCycleDays = FasterBiosculpterPod_Settings.RecommendedPleasureCycleDays;
                 settings.PleasureCycleNutrition = FasterBiosculpterPod_Settings.RecommendedPleasureCycleNutrition;
 
                 settings.BiotuningDurationTicks = FasterBiosculpterPod_Settings.RecommendedBiotuningDurationTicks;
-
-                settings.AgeReversalTicks = FasterBiosculpterPod_Settings.RecommendedAgeReversalTicks;
 
                 settings.PowerConsumption = FasterBiosculpterPod_Settings.RecommendedPowerConsumption;
 
                 ApplySettings();
             }
-            rectLeft.x += inRect.width * 0.35f;
-            if (Widgets.ButtonText(rectLeft, "Apply_Vanilla_Values".Translate()))
+            buttonsRect.x += canvas.width * 0.35f;
+            if (Widgets.ButtonText(buttonsRect, "Apply_Vanilla_Values".Translate()))
             {
-                settings.HealingCycleDays = FasterBiosculpterPod_Settings.VanillaHealingCycleDays;
-                settings.AgeReversalCycleDays = FasterBiosculpterPod_Settings.VanillaAgeReversalCycleDays;
-                settings.PleasureCycleDays = FasterBiosculpterPod_Settings.VanillaPleasureCycleDays;
+                settings.MedicCycleDays = FasterBiosculpterPod_Settings.VanillaMedicCycleDays;
+                settings.MedicCycleNutrition = FasterBiosculpterPod_Settings.VanillaMedicCycleNutrition;
 
-                settings.HealingCycleNutrition = FasterBiosculpterPod_Settings.VanillaHealingCycleNutrition;
+                settings.BioregenerationCycleDays = FasterBiosculpterPod_Settings.VanillaBioregenerationCycleDays;
+                settings.BioregenerationCycleNutrition = FasterBiosculpterPod_Settings.VanillaBioregenerationCycleNutrition;
+
+                settings.AgeReversalCycleDays = FasterBiosculpterPod_Settings.VanillaAgeReversalCycleDays;
                 settings.AgeReversalCycleNutrition = FasterBiosculpterPod_Settings.VanillaAgeReversalCycleNutrition;
+                settings.AgeReversalTicks = FasterBiosculpterPod_Settings.VanillaAgeReversalTicks;
+
+                settings.PleasureCycleDays = FasterBiosculpterPod_Settings.VanillaPleasureCycleDays;
                 settings.PleasureCycleNutrition = FasterBiosculpterPod_Settings.VanillaPleasureCycleNutrition;
 
                 settings.BiotuningDurationTicks = FasterBiosculpterPod_Settings.VanillaBiotuningDurationTicks;
-
-                settings.AgeReversalTicks = FasterBiosculpterPod_Settings.VanillaAgeReversalTicks;
 
                 settings.PowerConsumption = FasterBiosculpterPod_Settings.VanillaPowerConsumption;
 
                 ApplySettings();
             }
-            listingStandard.End();
 
-            base.DoSettingsWindowContents(inRect);
+            base.DoSettingsWindowContents(canvas);
         }
 
         /**
@@ -226,8 +214,11 @@ namespace FasterBiosculpterPod
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).nutritionRequired = settings.AgeReversalCycleNutrition;
             }
 
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.HealingCycleDays;
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle)) as CompProperties_BiosculpterPod_HealingCycle).nutritionRequired = settings.HealingCycleNutrition;
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_MedicCycle)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.MedicCycleDays;
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_MedicCycle)) as CompProperties_BiosculpterPod_HealingCycle).nutritionRequired = settings.MedicCycleNutrition;
+
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.BioregenerationCycleDays;
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).nutritionRequired = settings.BioregenerationCycleNutrition;
 
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_PleasureCycle)) as CompProperties_BiosculpterPod_PleasureCycle).durationDays = settings.PleasureCycleDays;
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_PleasureCycle)) as CompProperties_BiosculpterPod_PleasureCycle).nutritionRequired = settings.PleasureCycleNutrition;
@@ -235,7 +226,7 @@ namespace FasterBiosculpterPod
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power).basePowerConsumption = settings.PowerConsumption;
 
             if (settings.BiotuningDurationTicks > 0)
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = string.Format(FasterBiosculpterPod_Settings.BiosculpterPodDescription, settings.BiotuningDurationTicks.ToStringTicksToDays("F0"));
+                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = string.Format(FasterBiosculpterPod_Settings.BiosculpterPodDescription, ((int)settings.BiotuningDurationTicks).ToStringTicksToDays("F0"));
             else
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = FasterBiosculpterPod_Settings.BiosculpterPodDescriptionNoBiotuning;
         }
@@ -267,7 +258,7 @@ namespace FasterBiosculpterPod
             {
                 if (instructionList[i].opcode == OpCodes.Ldc_I4 && (Int32)instructionList[i].operand == FasterBiosculpterPod_Settings.VanillaBiotuningDurationTicks)
                 {
-                    instructionList[i].operand = LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().BiotuningDurationTicks;
+                    instructionList[i].operand = (int)LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().BiotuningDurationTicks;
                     break;
                 }
             }
@@ -287,7 +278,7 @@ namespace FasterBiosculpterPod
             {
                 if (instructionList[i].opcode == OpCodes.Ldc_I4 && (Int32)instructionList[i].operand == FasterBiosculpterPod_Settings.VanillaBiotuningDurationTicks)
                 {
-                    instructionList[i].operand = LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().BiotuningDurationTicks;
+                    instructionList[i].operand = (int)LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().BiotuningDurationTicks;
                     break;
                 }
             }
@@ -307,7 +298,7 @@ namespace FasterBiosculpterPod
             {
                 if (instructionList[i].opcode == OpCodes.Ldc_I4 && (Int32)instructionList[i].operand == FasterBiosculpterPod_Settings.VanillaAgeReversalTicks)
                 {
-                    instructionList[i].operand = LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().AgeReversalTicks;
+                    instructionList[i].operand = (int)LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().AgeReversalTicks;
                     break;
                 }
             }
@@ -328,7 +319,7 @@ namespace FasterBiosculpterPod
                 if (instructionList[i].opcode == OpCodes.Ldc_I4_S && (SByte)instructionList[i].operand == 60)
                 {
                     instructionList[i].opcode = OpCodes.Ldc_I4;
-                    instructionList[i].operand = (LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().AgeReversalTicks / 60000);
+                    instructionList[i].operand = ((int)LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().AgeReversalTicks / 60000);
                     break;
                 }
             }
