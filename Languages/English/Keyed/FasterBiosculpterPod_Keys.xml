@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	<Faster_Biosculpter_Pod>Faster Biosculpter Pod</Faster_Biosculpter_Pod>
+	
+	<Medic_Cycle>Medic Cycle</Medic_Cycle>
+	<Bioregeneration_Cycle>Bioregeneration Cycle</Bioregeneration_Cycle>
+	<Age_Reversal_Cycle>Age Reversal Cycle</Age_Reversal_Cycle>
+	<Pleasure_Cycle>Pleasure Cycle</Pleasure_Cycle>
+	<Biotuning_Duration>Biotuning Duration</Biotuning_Duration>
+	<Power_Consumption>Power Consumption</Power_Consumption>
 
 	<Healing>Healing</Healing>
 	<Age_Reversal>Age Reversal</Age_Reversal>
@@ -8,11 +15,17 @@
 	
 	<Cycle_Durations>Cycle Durations</Cycle_Durations>
 	<Cycle_Nutrition_Requirements>Cycle Nutrition Requirements</Cycle_Nutrition_Requirements>
-	<Biotuning_Duration>Biotuning Duration</Biotuning_Duration>
+	
 	<Years_Reversed>Age Reversed</Years_Reversed>
-	<Base_Power_Consumption>Base Power Consumption</Base_Power_Consumption>
+	
 	
 	<Apply_Custom_Values>Apply Custom Values</Apply_Custom_Values>
 	<Apply_Recommended_Values>Apply Recommended Values</Apply_Recommended_Values>
 	<Apply_Vanilla_Values>Apply Vanilla Values</Apply_Vanilla_Values>
+	
+	<Cycle_Duration>Cycle Duration</Cycle_Duration>
+	<Nutrition_Required>Nutrition Required</Nutrition_Required>
+	<_days> days</_days>
+	<_nutrition> nutrition</_nutrition>
+	<_W> W</_W>
 </LanguageData>
