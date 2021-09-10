@@ -13,19 +13,18 @@
 	<Age_Reversal>Age Reversal</Age_Reversal>
 	<Pleasure>Pleasure</Pleasure>
 	
-	<Cycle_Durations>Cycle Durations</Cycle_Durations>
-	<Cycle_Nutrition_Requirements>Cycle Nutrition Requirements</Cycle_Nutrition_Requirements>
-	
 	<Years_Reversed>Age Reversed</Years_Reversed>
-	
-	
+		
 	<Apply_Custom_Values>Apply Custom Values</Apply_Custom_Values>
 	<Apply_Recommended_Values>Apply Recommended Values</Apply_Recommended_Values>
 	<Apply_Vanilla_Values>Apply Vanilla Values</Apply_Vanilla_Values>
 	
 	<Cycle_Duration>Cycle Duration</Cycle_Duration>
 	<Nutrition_Required>Nutrition Required</Nutrition_Required>
+	<MedicineUltratech_Required>Medicine Required</MedicineUltratech_Required>
+	
 	<_days> days</_days>
 	<_nutrition> nutrition</_nutrition>
 	<_W> W</_W>
+	<_medicine_ultratech> glitterworld medicine</_medicine_ultratech>
 </LanguageData>

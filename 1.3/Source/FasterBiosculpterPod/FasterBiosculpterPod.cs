@@ -20,8 +20,10 @@ namespace FasterBiosculpterPod
 
         public const float VanillaBioregenerationCycleDays = 25f;
         public const float VanillaBioregenerationCycleNutrition = 30f;
+        public const float VanillaBioregenerationCycleMedicineUltratech = 2f;
         public const float RecommendedBioregenerationCycleDays = 6.3f;
         public const float RecommendedBioregenerationCycleNutrition = 7.5f;
+        public const float RecommendedBioregenerationCycleMedicineUltratech = 1f;
 
         public const float VanillaAgeReversalCycleDays = 8f;
         public const float VanillaAgeReversalCycleNutrition = 5f;
@@ -52,6 +54,7 @@ namespace FasterBiosculpterPod
         public float MedicCycleNutrition = RecommendedMedicCycleNutrition;
         public float BioregenerationCycleDays = RecommendedBioregenerationCycleDays;
         public float BioregenerationCycleNutrition = RecommendedBioregenerationCycleNutrition;
+        public float BioregenerationCycleMedicineUltratech = RecommendedBioregenerationCycleMedicineUltratech;
         public float AgeReversalCycleDays = RecommendedAgeReversalCycleDays;
         public float AgeReversalCycleNutrition = RecommendedAgeReversalCycleNutrition;
         public float PleasureCycleDays = RecommendedPleasureCycleDays;
@@ -66,6 +69,7 @@ namespace FasterBiosculpterPod
 
             Scribe_Values.Look(ref BioregenerationCycleDays, "bioregenerationCycleDays", RecommendedBioregenerationCycleDays);
             Scribe_Values.Look(ref BioregenerationCycleNutrition, "bioregenerationCycleNutrition", RecommendedBioregenerationCycleNutrition);
+            Scribe_Values.Look(ref BioregenerationCycleMedicineUltratech, "bioregenerationCycleMedicineUltratech", RecommendedBioregenerationCycleMedicineUltratech);
 
             Scribe_Values.Look(ref AgeReversalCycleDays, "ageReversalCycleDays", RecommendedAgeReversalCycleDays);
             Scribe_Values.Look(ref AgeReversalCycleNutrition, "ageReversalCycleNutrition", RecommendedAgeReversalCycleNutrition);
@@ -97,7 +101,7 @@ namespace FasterBiosculpterPod
             const float LeftPartPct = 0.2f;
 
             Rect outRect = canvas.TopPart(0.9f);
-            Rect rect = new Rect(0f, 0f, outRect.width - 18f, 650f);
+            Rect rect = new Rect(0f, 0f, outRect.width - 18f, 682.5f);
             Widgets.BeginScrollView(outRect, ref scrollPosition, rect, true);
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(rect);
@@ -109,6 +113,7 @@ namespace FasterBiosculpterPod
             listing.AddLabelLine("Bioregeneration_Cycle".Translate());
             listing.AddLabeledSlider("Cycle_Duration".Translate(), ref settings.BioregenerationCycleDays, 0f, 60f, null, null, 0.1f, true, settings.BioregenerationCycleDays.ToString() + "_days".Translate(), LeftPartPct);
             listing.AddLabeledSlider("Nutrition_Required".Translate(), ref settings.BioregenerationCycleNutrition, 0f, 60f, null, null, 0.1f, true, settings.BioregenerationCycleNutrition.ToString() + "_nutrition".Translate(), LeftPartPct);
+            listing.AddLabeledSlider("MedicineUltratech_Required".Translate(), ref settings.BioregenerationCycleMedicineUltratech, 0f, 10f, null, null, 1f, true, settings.BioregenerationCycleMedicineUltratech.ToString() + "_medicine_ultratech".Translate(), LeftPartPct);
             listing.AddHorizontalLine(ListingStandardHelper.Gap);
             listing.AddLabelLine("Age_Reversal_Cycle".Translate());
             listing.AddLabeledSlider("Cycle_Duration".Translate(), ref settings.AgeReversalCycleDays, 0f, 60f, null, null, 0.1f, true, settings.AgeReversalCycleDays.ToString() + "_days".Translate(), LeftPartPct);
@@ -139,6 +144,7 @@ namespace FasterBiosculpterPod
 
                 settings.BioregenerationCycleDays = FasterBiosculpterPod_Settings.RecommendedBioregenerationCycleDays;
                 settings.BioregenerationCycleNutrition = FasterBiosculpterPod_Settings.RecommendedBioregenerationCycleNutrition;
+                settings.BioregenerationCycleMedicineUltratech = FasterBiosculpterPod_Settings.RecommendedBioregenerationCycleMedicineUltratech;
 
                 settings.AgeReversalCycleDays = FasterBiosculpterPod_Settings.RecommendedAgeReversalCycleDays;
                 settings.AgeReversalCycleNutrition = FasterBiosculpterPod_Settings.RecommendedAgeReversalCycleNutrition;
@@ -161,6 +167,7 @@ namespace FasterBiosculpterPod
 
                 settings.BioregenerationCycleDays = FasterBiosculpterPod_Settings.VanillaBioregenerationCycleDays;
                 settings.BioregenerationCycleNutrition = FasterBiosculpterPod_Settings.VanillaBioregenerationCycleNutrition;
+                settings.BioregenerationCycleMedicineUltratech = FasterBiosculpterPod_Settings.VanillaBioregenerationCycleMedicineUltratech;
 
                 settings.AgeReversalCycleDays = FasterBiosculpterPod_Settings.VanillaAgeReversalCycleDays;
                 settings.AgeReversalCycleNutrition = FasterBiosculpterPod_Settings.VanillaAgeReversalCycleNutrition;
@@ -217,8 +224,17 @@ namespace FasterBiosculpterPod
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_MedicCycle)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.MedicCycleDays;
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_MedicCycle)) as CompProperties_BiosculpterPod_HealingCycle).nutritionRequired = settings.MedicCycleNutrition;
 
+
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.BioregenerationCycleDays;
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).nutritionRequired = settings.BioregenerationCycleNutrition;
+
+            List<ThingDefCountClass> requiredExtraIngredients = new List<ThingDefCountClass>();
+            if (settings.BioregenerationCycleMedicineUltratech > 0f)
+            {
+                ThingDefCountClass ultratechMedicine = new ThingDefCountClass(ThingDefOf.MedicineUltratech, (int)settings.BioregenerationCycleMedicineUltratech);
+                requiredExtraIngredients.Add(ultratechMedicine);
+            }
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).extraRequiredIngredients = requiredExtraIngredients;
 
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_PleasureCycle)) as CompProperties_BiosculpterPod_PleasureCycle).durationDays = settings.PleasureCycleDays;
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_PleasureCycle)) as CompProperties_BiosculpterPod_PleasureCycle).nutritionRequired = settings.PleasureCycleNutrition;
