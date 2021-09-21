@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<Inglix.Faster_Biosculpter_Pod>Biosculpteur Rapide</Inglix.Faster_Biosculpter_Pod>
+	
+	<Inglix.Medic_Cycle>Cycle médical</Inglix.Medic_Cycle>
+	<Inglix.Bioregeneration_Cycle>Cycle de biorégénération</Inglix.Bioregeneration_Cycle>
+	<Inglix.Age_Reversal_Cycle>Cycle d'inversion de l'âge</Inglix.Age_Reversal_Cycle>
+	<Inglix.Pleasure_Cycle>Cycle de plaisir</Inglix.Pleasure_Cycle>
+	<Inglix.Miscellaneous_Options>Options diverses</Inglix.Miscellaneous_Options>
+	<Inglix.Biotuning_Duration>Durée de la synchronisation biologique</Inglix.Biotuning_Duration>
+	<Inglix.Power_Consumption>Consommation d'énergie</Inglix.Power_Consumption>
+	
+	<Inglix.Cycle_Duration>Durée du cycle</Inglix.Cycle_Duration>
+	<Inglix.Nutrition_Required>Nutrition requise</Inglix.Nutrition_Required>
+	<Inglix.MedicineUltratech_Required>Médicament de Glitterworld requis</Inglix.MedicineUltratech_Required>
+	<Inglix.Age_Reversed>Âge inversé</Inglix.Age_Reversed>
+	<Inglix.Mood_Duration>Durée de l'humeur</Inglix.Mood_Duration>
+	<Inglix.Mood_Effect>Effet d'humeur</Inglix.Mood_Effect>
+	
+	<Inglix.Apply_Custom_Values>Appliquer des valeurs personnalisées</Inglix.Apply_Custom_Values>
+	<Inglix.Apply_Recommended_Values>Appliquer les valeurs recommandées</Inglix.Apply_Recommended_Values>
+	<Inglix.Apply_Vanilla_Values>Appliquer les valeurs standard</Inglix.Apply_Vanilla_Values>
+	
+	<Inglix.Biosculpter_Description>Une capsule immersive équipée d'un injecteur de fluide biosculptant et d'un système de contrôle attaché. Il peut effectuer une variété d'altérations biologiques, y compris rajeunir et donner du plaisir. Chaque capsule est adaptée à son utilisateur et ne peut être utilisée par personne d'autre. Le biotuning se réinitialise après {0} jours. Les croyants transhumanistes croient que les capsules de biosculptage sont d'une importance cruciale dans leur quête pour transcender les limitations physiques humaines normales.</Inglix.Biosculpter_Description>
+	<Inglix.Biosculpter_Description_No_Biotuning>Une capsule immersive équipée d'un injecteur de fluide biosculptant et d'un système de contrôle attaché. Il peut effectuer une variété d'altérations biologiques, y compris rajeunir et donner du plaisir. Les croyants transhumanistes croient que les capsules de biosculptage sont d'une importance cruciale dans leur quête pour transcender les limitations physiques humaines normales.</Inglix.Biosculpter_Description_No_Biotuning>
+	
+</LanguageData>
