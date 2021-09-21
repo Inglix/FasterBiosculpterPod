@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<Inglix.Faster_Biosculpter_Pod>Bioescultor Rápido</Inglix.Faster_Biosculpter_Pod>
+	
+	<Inglix.Medic_Cycle>Ciclo de Medicina</Inglix.Medic_Cycle>
+	<Inglix.Bioregeneration_Cycle>Ciclo de Bioregeneração</Inglix.Bioregeneration_Cycle>
+	<Inglix.Age_Reversal_Cycle>Ciclo de Reversão de Idade</Inglix.Age_Reversal_Cycle>
+	<Inglix.Pleasure_Cycle>Ciclo de Prazer</Inglix.Pleasure_Cycle>
+	<Inglix.Miscellaneous_Options>Opções Diversas</Inglix.Miscellaneous_Options>
+	<Inglix.Biotuning_Duration>Duração da Biotunização</Inglix.Biotuning_Duration>
+	<Inglix.Power_Consumption>Consumo de Energia</Inglix.Power_Consumption>
+	
+	<Inglix.Cycle_Duration>Duração do Ciclo</Inglix.Cycle_Duration>
+	<Inglix.Nutrition_Required>Nutrição Necessária</Inglix.Nutrition_Required>
+	<Inglix.MedicineUltratech_Required>Medicina Glitterworld Necessário</Inglix.MedicineUltratech_Required>
+	<Inglix.Age_Reversed>Idade Invertida</Inglix.Age_Reversed>
+	<Inglix.Mood_Duration>Duração do Humor</Inglix.Mood_Duration>
+	<Inglix.Mood_Effect>Efeito de Humor</Inglix.Mood_Effect>
+	
+	<Inglix.Apply_Custom_Values>Aplicar Valores Personalizados</Inglix.Apply_Custom_Values>
+	<Inglix.Apply_Recommended_Values>Aplicar Valores Recomendados</Inglix.Apply_Recommended_Values>
+	<Inglix.Apply_Vanilla_Values>Aplicar Valores Padrão</Inglix.Apply_Vanilla_Values>
+	
+	<Inglix.Biosculpter_Description>Uma cápsula imersiva equipada com um injetor de fluido biológico e sistema de controle acoplado. Pode realizar uma variedade de alterações biológicas, incluindo reversão de idade e prazer. Cada cápsula torna-se biotunizado para seu usuário e não pode ser usado por mais ninguém. O bio-tuno é reiniciado após {0} dias. Os que acreditam no transumanismo acreditam que os bioescultores são de importância crítica em sua busca para transcender as limitações físicas humanas normais.</Inglix.Biosculpter_Description>
+	<Inglix.Biosculpter_Description_No_Biotuning>Uma cápsula imersiva equipada com um injetor de fluido biológico e sistema de controle acoplado. Pode realizar uma variedade de alterações biológicas, incluindo reversão de idade e prazer. Os que acreditam no transumanismo acreditam que os bioescultores são de importância crítica em sua busca para transcender as limitações físicas humanas normais.</Inglix.Biosculpter_Description_No_Biotuning>
+	
+</LanguageData>

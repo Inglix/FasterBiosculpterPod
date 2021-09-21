@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-	<Faster_Biosculpter_Pod>Faster Biosculpter Pod</Faster_Biosculpter_Pod>
-	
-	<Medic_Cycle>Medic Cycle</Medic_Cycle>
-	<Bioregeneration_Cycle>Bioregeneration Cycle</Bioregeneration_Cycle>
-	<Age_Reversal_Cycle>Age Reversal Cycle</Age_Reversal_Cycle>
-	<Pleasure_Cycle>Pleasure Cycle</Pleasure_Cycle>
-	<Biotuning_Duration>Biotuning Duration</Biotuning_Duration>
-	<Power_Consumption>Power Consumption</Power_Consumption>
 
-	<Healing>Healing</Healing>
-	<Age_Reversal>Age Reversal</Age_Reversal>
-	<Pleasure>Pleasure</Pleasure>
+	<Inglix.Faster_Biosculpter_Pod>Faster Biosculpter Pod</Inglix.Faster_Biosculpter_Pod>
 	
-	<Years_Reversed>Age Reversed</Years_Reversed>
-		
-	<Apply_Custom_Values>Apply Custom Values</Apply_Custom_Values>
-	<Apply_Recommended_Values>Apply Recommended Values</Apply_Recommended_Values>
-	<Apply_Vanilla_Values>Apply Vanilla Values</Apply_Vanilla_Values>
+	<Inglix.Medic_Cycle>Medic Cycle</Inglix.Medic_Cycle>
+	<Inglix.Bioregeneration_Cycle>Bioregeneration Cycle</Inglix.Bioregeneration_Cycle>
+	<Inglix.Age_Reversal_Cycle>Age Reversal Cycle</Inglix.Age_Reversal_Cycle>
+	<Inglix.Pleasure_Cycle>Pleasure Cycle</Inglix.Pleasure_Cycle>
+	<Inglix.Miscellaneous_Options>Miscellaneous Options</Inglix.Miscellaneous_Options>
+	<Inglix.Biotuning_Duration>Biotuning Duration</Inglix.Biotuning_Duration>
+	<Inglix.Power_Consumption>Power Consumption</Inglix.Power_Consumption>
 	
-	<Cycle_Duration>Cycle Duration</Cycle_Duration>
-	<Nutrition_Required>Nutrition Required</Nutrition_Required>
-	<MedicineUltratech_Required>Medicine Required</MedicineUltratech_Required>
+	<Inglix.Cycle_Duration>Cycle Duration</Inglix.Cycle_Duration>
+	<Inglix.Nutrition_Required>Nutrition Required</Inglix.Nutrition_Required>
+	<Inglix.MedicineUltratech_Required>Glitterworld Medicine Required</Inglix.MedicineUltratech_Required>
+	<Inglix.Age_Reversed>Age Reversed</Inglix.Age_Reversed>
+	<Inglix.Mood_Duration>Mood Duration</Inglix.Mood_Duration>
+	<Inglix.Mood_Effect>Mood Effect</Inglix.Mood_Effect>
 	
-	<_days> days</_days>
-	<_nutrition> nutrition</_nutrition>
-	<_W> W</_W>
-	<_medicine_ultratech> glitterworld medicine</_medicine_ultratech>
+	<Inglix.Apply_Custom_Values>Apply Custom Values</Inglix.Apply_Custom_Values>
+	<Inglix.Apply_Recommended_Values>Apply Recommended Values</Inglix.Apply_Recommended_Values>
+	<Inglix.Apply_Vanilla_Values>Apply Vanilla Values</Inglix.Apply_Vanilla_Values>
+	
+	<Inglix.Biosculpter_Description>An immersive pod equipped with a biosculpting fluid injector and attached control system. It can perform a variety of biological alterations including age reversal and pleasure-giving. Each pod becomes biotuned to its user, and cannot be used by anyone else. Biotuning resets after {0} days. Believers in transhumanism believe biosculpter pods are of critical importance in their quest to transcend normal human physical limitations.</Inglix.Biosculpter_Description>
+	<Inglix.Biosculpter_Description_No_Biotuning>An immersive pod equipped with a biosculpting fluid injector and attached control system. It can perform a variety of biological alterations including age reversal and pleasure-giving. Believers in transhumanism believe biosculpter pods are of critical importance in their quest to transcend normal human physical limitations.</Inglix.Biosculpter_Description_No_Biotuning>
+	
 </LanguageData>
