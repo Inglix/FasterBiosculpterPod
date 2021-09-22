@@ -66,6 +66,9 @@ namespace FasterBiosculpterPod
 
         public float PowerConsumption = VanillaPowerConsumption;
 
+        public bool UseQuadrumsForDuration = true;
+        public bool UseHoursForDuration = true;
+        
         public override void ExposeData()
         {
             Scribe_Values.Look(ref MedicCycleDays, "medicCycleDays", VanillaMedicCycleDays);
@@ -90,6 +93,9 @@ namespace FasterBiosculpterPod
 
             Scribe_Values.Look(ref PowerConsumption, "powerConsumption", VanillaPowerConsumption);
 
+            Scribe_Values.Look(ref UseQuadrumsForDuration, "useQuadrumsForDuration", true);
+            Scribe_Values.Look(ref UseHoursForDuration, "useHoursForDuration", true);
+
             base.ExposeData();
         }
     }
@@ -106,45 +112,56 @@ namespace FasterBiosculpterPod
 
         public override void DoSettingsWindowContents(Rect canvas)
         {
+            /*
+             * For reference, the canvas height is 584 and the canvas width is 864
+             */
             const float LeftPartPct = 0.0f; // Let the slider take up the entire width of the settings window
             const float CycleDurationIncrement = 0.1f; // Increment cycle durations by 0.1 day increments (2.4 hours)
             const float NutritionRequiredIncrement = 0.1f; // Increment nutrition required by 0.1 nutrition increments
             string glitterworldMedicineName = DefDatabase<ThingDef>.GetNamed("MedicineUltratech").label;
     
-            Rect outRect = canvas.TopPart(0.9f);
+            Rect outRect = canvas.TopPartPixels(484f);
             Rect rect = new Rect(0f, 0f, outRect.width - 18f, 747.5f);
             Widgets.BeginScrollView(outRect, ref scrollPosition, rect, true);
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(rect);
-
             listing.AddLabelLine("Inglix.Medic_Cycle".Translate());
-            listing.AddLabeledSlider(null, ref settings.MedicCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.MedicCycleDays).ToStringTicksToPeriodVeryVerbose(), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.MedicCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.MedicCycleDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.MedicCycleNutrition, 0f, 60f, "Inglix.Nutrition_Required".Translate(), null, NutritionRequiredIncrement, true, settings.MedicCycleNutrition.ToString() + " " + "Nutrition".Translate().ToLower(), LeftPartPct);
             listing.AddHorizontalLine(ListingStandardHelper.Gap);
             listing.AddLabelLine("Inglix.Bioregeneration_Cycle".Translate());
-            listing.AddLabeledSlider(null, ref settings.BioregenerationCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.BioregenerationCycleDays).ToStringTicksToPeriodVeryVerbose(), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.BioregenerationCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.BioregenerationCycleDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.BioregenerationCycleNutrition, 0f, 60f, "Inglix.Nutrition_Required".Translate(), null, NutritionRequiredIncrement, true, settings.BioregenerationCycleNutrition.ToString() + " " + "Nutrition".Translate().ToLower(), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.BioregenerationCycleMedicineUltratech, 0f, 20f, "Inglix.MedicineUltratech_Required".Translate(), null, 1f, true, settings.BioregenerationCycleMedicineUltratech.ToString() + " " + glitterworldMedicineName, LeftPartPct);
             listing.AddHorizontalLine(ListingStandardHelper.Gap);
             listing.AddLabelLine("Inglix.Age_Reversal_Cycle".Translate());
-            listing.AddLabeledSlider(null, ref settings.AgeReversalCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.AgeReversalCycleDays).ToStringTicksToPeriodVeryVerbose(), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.AgeReversalCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.AgeReversalCycleDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.AgeReversalCycleNutrition, 0f, 60f, "Inglix.Nutrition_Required".Translate(), null, NutritionRequiredIncrement, true, settings.AgeReversalCycleNutrition.ToString() + " " + "Nutrition".Translate().ToLower(), LeftPartPct);
-            listing.AddLabeledSlider(null, ref settings.AgeReversalDays, 0, 840f, "Inglix.Age_Reversed".Translate(), null, 1f, true, ConvertDaysToTicks(settings.AgeReversalDays).ToStringTicksToPeriodVeryVerbose(), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.AgeReversalDays, 0, 840f, "Inglix.Age_Reversed".Translate(), null, 1f, true, ConvertDaysToTicks(settings.AgeReversalDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
             listing.AddHorizontalLine(ListingStandardHelper.Gap);
             listing.AddLabelLine("Inglix.Pleasure_Cycle".Translate());
-            listing.AddLabeledSlider(null, ref settings.PleasureCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.PleasureCycleDays).ToStringTicksToPeriodVeryVerbose(), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.PleasureCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.PleasureCycleDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.PleasureCycleNutrition, 0f, 60f, "Inglix.Nutrition_Required".Translate(), null, NutritionRequiredIncrement, true, settings.PleasureCycleNutrition.ToString() + " " + "Nutrition".Translate().ToLower(), LeftPartPct);
-            listing.AddLabeledSlider(null, ref settings.PleasureCycleMoodDays, 0f, 60f, "Inglix.Mood_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.PleasureCycleMoodDays).ToStringTicksToPeriodVeryVerbose(), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.PleasureCycleMoodDays, 0f, 60f, "Inglix.Mood_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.PleasureCycleMoodDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.PleasureCycleMoodEffect, 0f, 100f, "Inglix.Mood_Effect".Translate(), null, 1f, true, "+" + settings.PleasureCycleMoodEffect.ToString() + " " + "Mood".Translate().ToLower(), LeftPartPct);
             listing.AddHorizontalLine(ListingStandardHelper.Gap);
             listing.AddLabelLine("Inglix.Miscellaneous_Options".Translate());
-            listing.AddLabeledSlider(null, ref settings.BiotuningDurationDays, 0, 840f, "Inglix.Biotuning_Duration".Translate(), null, 1f, true, ConvertDaysToTicks(settings.BiotuningDurationDays).ToStringTicksToPeriodVeryVerbose(), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.BiotuningDurationDays, 0, 840f, "Inglix.Biotuning_Duration".Translate(), null, 1f, true, ConvertDaysToTicks(settings.BiotuningDurationDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.PowerConsumption, 0f, 10000f, "Inglix.Power_Consumption".Translate(), null, 25f, true, settings.PowerConsumption.ToString() + " W", LeftPartPct);
             listing.End();
             Widgets.EndScrollView();
 
-            Rect buttonsRect = canvas.BottomPart(0.075f).LeftPart(0.3f);
-            buttonsRect.height = canvas.height * 0.05f;
+            Rect buttonsRect = canvas.BottomPartPixels(100f);//.LeftPart(0.3f);
+            buttonsRect.height = 35f;
+            Listing_Standard footerListing = new Listing_Standard();
+            footerListing.ColumnWidth = ((canvas.width - 30) / 2) - 2;
+            footerListing.Begin(buttonsRect);
+            footerListing.AddLabeledCheckbox("Use Quadrums in Durations", ref settings.UseQuadrumsForDuration);
+            footerListing.NewColumn();
+            footerListing.AddLabeledCheckbox("Use Hours in Durations", ref settings.UseHoursForDuration);
+            footerListing.End();
+            buttonsRect.y += 46f;
+            buttonsRect.width = (canvas.width * 0.3f);
             if (Widgets.ButtonText(buttonsRect, "Inglix.Apply_Custom_Values".Translate()))
             {
                 ApplySettings();
