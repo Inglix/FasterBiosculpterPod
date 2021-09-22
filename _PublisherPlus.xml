@@ -2,6 +2,7 @@
 <Configuration>
   <Excluded>
     <exclude>M:\Games\SteamLibrary\steamapps\common\RimWorld\Mods\FasterBiosculpterPod\.git</exclude>
+    <exclude>M:\Games\SteamLibrary\steamapps\common\RimWorld\Mods\FasterBiosculpterPod\.vs</exclude>
     <exclude>M:\Games\SteamLibrary\steamapps\common\RimWorld\Mods\FasterBiosculpterPod\1.3\Source</exclude>
   </Excluded>
 </Configuration>

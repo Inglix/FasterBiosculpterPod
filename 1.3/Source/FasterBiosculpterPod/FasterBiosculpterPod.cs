@@ -47,48 +47,48 @@ namespace FasterBiosculpterPod
         public const float VanillaPowerConsumption = 150f;
         public const float RecommendedPowerConsumption = 600f;
 
-        public float MedicCycleDays = RecommendedMedicCycleDays;
-        public float MedicCycleNutrition = RecommendedMedicCycleNutrition;
-        public float BioregenerationCycleDays = RecommendedBioregenerationCycleDays;
-        public float BioregenerationCycleNutrition = RecommendedBioregenerationCycleNutrition;
-        public float BioregenerationCycleMedicineUltratech = RecommendedBioregenerationCycleMedicineUltratech;
-        public float AgeReversalCycleDays = RecommendedAgeReversalCycleDays;
-        public float AgeReversalCycleNutrition = RecommendedAgeReversalCycleNutrition;
-        public float AgeReversalTicks = RecommendedAgeReversalTicks;
-        public float AgeReversalDays = RecommendedAgeReversalTicks / 60000;
-        public float PleasureCycleDays = RecommendedPleasureCycleDays;
-        public float PleasureCycleNutrition = RecommendedPleasureCycleNutrition;
-        public float PleasureCycleMoodDays = RecommendedPleasureCycleMoodDays;
-        public float PleasureCycleMoodEffect = RecommendedPleasureCycleMoodEffect;
+        public float MedicCycleDays = VanillaMedicCycleDays;
+        public float MedicCycleNutrition = VanillaMedicCycleNutrition;
+        public float BioregenerationCycleDays = VanillaBioregenerationCycleDays;
+        public float BioregenerationCycleNutrition = VanillaBioregenerationCycleNutrition;
+        public float BioregenerationCycleMedicineUltratech = VanillaBioregenerationCycleMedicineUltratech;
+        public float AgeReversalCycleDays = VanillaAgeReversalCycleDays;
+        public float AgeReversalCycleNutrition = VanillaAgeReversalCycleNutrition;
+        public float AgeReversalTicks = VanillaAgeReversalTicks;
+        public float AgeReversalDays = VanillaAgeReversalTicks / 60000;
+        public float PleasureCycleDays = VanillaPleasureCycleDays;
+        public float PleasureCycleNutrition = VanillaPleasureCycleNutrition;
+        public float PleasureCycleMoodDays = VanillaPleasureCycleMoodDays;
+        public float PleasureCycleMoodEffect = VanillaPleasureCycleMoodEffect;
 
-        public float BiotuningDurationTicks = RecommendedBiotuningDurationTicks;
-        public float BiotuningDurationDays = RecommendedBiotuningDurationTicks / 60000;
+        public float BiotuningDurationTicks = VanillaBiotuningDurationTicks;
+        public float BiotuningDurationDays = VanillaBiotuningDurationTicks / 60000;
 
-        public float PowerConsumption = RecommendedPowerConsumption;
+        public float PowerConsumption = VanillaPowerConsumption;
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref MedicCycleDays, "medicCycleDays", RecommendedMedicCycleDays);
-            Scribe_Values.Look(ref MedicCycleNutrition, "medicCycleNutrition", RecommendedMedicCycleNutrition);
+            Scribe_Values.Look(ref MedicCycleDays, "medicCycleDays", VanillaMedicCycleDays);
+            Scribe_Values.Look(ref MedicCycleNutrition, "medicCycleNutrition", VanillaMedicCycleNutrition);
 
-            Scribe_Values.Look(ref BioregenerationCycleDays, "bioregenerationCycleDays", RecommendedBioregenerationCycleDays);
-            Scribe_Values.Look(ref BioregenerationCycleNutrition, "bioregenerationCycleNutrition", RecommendedBioregenerationCycleNutrition);
-            Scribe_Values.Look(ref BioregenerationCycleMedicineUltratech, "bioregenerationCycleMedicineUltratech", RecommendedBioregenerationCycleMedicineUltratech);
+            Scribe_Values.Look(ref BioregenerationCycleDays, "bioregenerationCycleDays", VanillaBioregenerationCycleDays);
+            Scribe_Values.Look(ref BioregenerationCycleNutrition, "bioregenerationCycleNutrition", VanillaBioregenerationCycleNutrition);
+            Scribe_Values.Look(ref BioregenerationCycleMedicineUltratech, "bioregenerationCycleMedicineUltratech", VanillaBioregenerationCycleMedicineUltratech);
 
-            Scribe_Values.Look(ref AgeReversalCycleDays, "ageReversalCycleDays", RecommendedAgeReversalCycleDays);
-            Scribe_Values.Look(ref AgeReversalCycleNutrition, "ageReversalCycleNutrition", RecommendedAgeReversalCycleNutrition);
-            Scribe_Values.Look(ref AgeReversalTicks, "ageReversalTicks", RecommendedAgeReversalTicks); // Deprecated
+            Scribe_Values.Look(ref AgeReversalCycleDays, "ageReversalCycleDays", VanillaAgeReversalCycleDays);
+            Scribe_Values.Look(ref AgeReversalCycleNutrition, "ageReversalCycleNutrition", VanillaAgeReversalCycleNutrition);
+            Scribe_Values.Look(ref AgeReversalTicks, "ageReversalTicks", VanillaAgeReversalTicks); // Deprecated
             Scribe_Values.Look(ref AgeReversalDays, "ageReversalDays", AgeReversalTicks / 60000);
 
-            Scribe_Values.Look(ref PleasureCycleDays, "pleasureCycleDays", RecommendedPleasureCycleDays);
-            Scribe_Values.Look(ref PleasureCycleNutrition, "pleasureCycleNutrition", RecommendedPleasureCycleNutrition);
-            Scribe_Values.Look(ref PleasureCycleMoodDays, "pleasureCycleMoodDays", RecommendedPleasureCycleMoodDays);
-            Scribe_Values.Look(ref PleasureCycleMoodEffect, "pleasureCycleMoodEffect", RecommendedPleasureCycleMoodEffect);
+            Scribe_Values.Look(ref PleasureCycleDays, "pleasureCycleDays", VanillaPleasureCycleDays);
+            Scribe_Values.Look(ref PleasureCycleNutrition, "pleasureCycleNutrition", VanillaPleasureCycleNutrition);
+            Scribe_Values.Look(ref PleasureCycleMoodDays, "pleasureCycleMoodDays", VanillaPleasureCycleMoodDays);
+            Scribe_Values.Look(ref PleasureCycleMoodEffect, "pleasureCycleMoodEffect", VanillaPleasureCycleMoodEffect);
 
-            Scribe_Values.Look(ref BiotuningDurationTicks, "biotuningDurationTicks", RecommendedBiotuningDurationTicks); // Deprecated
+            Scribe_Values.Look(ref BiotuningDurationTicks, "biotuningDurationTicks", VanillaBiotuningDurationTicks); // Deprecated
             Scribe_Values.Look(ref BiotuningDurationDays, "biotuningDurationDays", BiotuningDurationTicks / 60000);
 
-            Scribe_Values.Look(ref PowerConsumption, "powerConsumption", RecommendedPowerConsumption);
+            Scribe_Values.Look(ref PowerConsumption, "powerConsumption", VanillaPowerConsumption);
 
             base.ExposeData();
         }
