@@ -47,6 +47,17 @@ namespace FasterBiosculpterPod
         public const float VanillaPowerConsumption = 150f;
         public const float RecommendedPowerConsumption = 600f;
 
+        public const float VanillaSteelCost = 120f;
+        public const float VanillaComponentIndustrialCost = 3f;
+        public const float VanillaPlasteelCost = 0f;
+        public const float VanillaComponentSpacerCost = 0f;
+        public const float VanillaWorkToBuild = 28000f;
+        public const float RecommendedSteelCost = VanillaSteelCost;
+        public const float RecommendedComponentIndustrialCost = VanillaComponentIndustrialCost;
+        public const float RecommendedPlasteelCost = VanillaPlasteelCost;
+        public const float RecommendedComponentSpacerCost = VanillaComponentSpacerCost;
+        public const float RecommendedWorkToBuild = VanillaWorkToBuild;
+
         public float MedicCycleDays = VanillaMedicCycleDays;
         public float MedicCycleNutrition = VanillaMedicCycleNutrition;
         public float BioregenerationCycleDays = VanillaBioregenerationCycleDays;
@@ -65,6 +76,12 @@ namespace FasterBiosculpterPod
         public float BiotuningDurationDays = VanillaBiotuningDurationTicks / 60000;
 
         public float PowerConsumption = VanillaPowerConsumption;
+
+        public float SteelCost = VanillaSteelCost;
+        public float ComponentIndustrialCost = VanillaComponentIndustrialCost;
+        public float PlasteelCost = VanillaPlasteelCost;
+        public float ComponentSpacerCost = VanillaComponentSpacerCost;
+        public float WorkToBuild = VanillaWorkToBuild;
 
         public bool UseQuadrumsForDuration = true;
         public bool UseHoursForDuration = true;
@@ -93,6 +110,12 @@ namespace FasterBiosculpterPod
 
             Scribe_Values.Look(ref PowerConsumption, "powerConsumption", VanillaPowerConsumption);
 
+            Scribe_Values.Look(ref SteelCost, "steelCost", VanillaSteelCost);
+            Scribe_Values.Look(ref ComponentIndustrialCost, "componentIndustrialCost", VanillaComponentIndustrialCost);
+            Scribe_Values.Look(ref PlasteelCost, "plasteelCost", VanillaPlasteelCost);
+            Scribe_Values.Look(ref ComponentSpacerCost, "componentSpacerCost", VanillaComponentSpacerCost);
+            Scribe_Values.Look(ref WorkToBuild, "workToBuild", VanillaWorkToBuild);
+
             Scribe_Values.Look(ref UseQuadrumsForDuration, "useQuadrumsForDuration", true);
             Scribe_Values.Look(ref UseHoursForDuration, "useHoursForDuration", true);
 
@@ -119,9 +142,15 @@ namespace FasterBiosculpterPod
             const float CycleDurationIncrement = 0.1f; // Increment cycle durations by 0.1 day increments (2.4 hours)
             const float NutritionRequiredIncrement = 0.1f; // Increment nutrition required by 0.1 nutrition increments
             string glitterworldMedicineName = DefDatabase<ThingDef>.GetNamed("MedicineUltratech").label;
+
+            string steel = DefDatabase<ThingDef>.GetNamed("Steel").label;
+            string plasteel = DefDatabase<ThingDef>.GetNamed("Plasteel").label;
+            string component = DefDatabase<ThingDef>.GetNamed("ComponentIndustrial").label;
+            string advancedComponent = DefDatabase<ThingDef>.GetNamed("ComponentSpacer").label;
+            string workToBuild = DefDatabase<StatDef>.GetNamed("WorkToBuild").label;
     
             Rect outRect = canvas.TopPartPixels(484f);
-            Rect rect = new Rect(0f, 0f, outRect.width - 18f, 747.5f);
+            Rect rect = new Rect(0f, 0f, outRect.width - 18f, 975.0f);
             Widgets.BeginScrollView(outRect, ref scrollPosition, rect, true);
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(rect);
@@ -148,6 +177,13 @@ namespace FasterBiosculpterPod
             listing.AddLabelLine("Inglix.Miscellaneous_Options".Translate());
             listing.AddLabeledSlider(null, ref settings.BiotuningDurationDays, 0, 840f, "Inglix.Biotuning_Duration".Translate(), null, 1f, true, ConvertDaysToTicks(settings.BiotuningDurationDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.PowerConsumption, 0f, 10000f, "Inglix.Power_Consumption".Translate(), null, 25f, true, settings.PowerConsumption.ToString() + " W", LeftPartPct);
+            listing.AddHorizontalLine(ListingStandardHelper.Gap);
+            listing.AddLabelLine("Inglix.Building_Cost".Translate());
+            listing.AddLabeledSlider(null, ref settings.SteelCost, 0, 1000f, steel.ToTitleCase(), null, 1f, true, settings.SteelCost + " " + steel, LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.ComponentIndustrialCost, 0, 100f, component.ToTitleCase(), null, 1f, true, settings.ComponentIndustrialCost + " " + component, LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.PlasteelCost, 0, 1000f, plasteel.ToTitleCase(), null, 1f, true, settings.PlasteelCost + " " + plasteel, LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.ComponentSpacerCost, 0, 100f, advancedComponent.ToTitleCase(), null, 1f, true, settings.ComponentSpacerCost + " " + advancedComponent, LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.WorkToBuild, 0, 600000f, workToBuild.ToTitleCase(), null, 60f, true, Mathf.CeilToInt(settings.WorkToBuild / 60).ToString() + " " + workToBuild, LeftPartPct);
             listing.End();
             Widgets.EndScrollView();
 
@@ -156,9 +192,9 @@ namespace FasterBiosculpterPod
             Listing_Standard footerListing = new Listing_Standard();
             footerListing.ColumnWidth = ((canvas.width - 30) / 2) - 2;
             footerListing.Begin(buttonsRect);
-            footerListing.AddLabeledCheckbox("Use Quadrums in Durations", ref settings.UseQuadrumsForDuration);
+            footerListing.AddLabeledCheckbox("Inglix.Use_Quadrums".Translate(), ref settings.UseQuadrumsForDuration);
             footerListing.NewColumn();
-            footerListing.AddLabeledCheckbox("Use Hours in Durations", ref settings.UseHoursForDuration);
+            footerListing.AddLabeledCheckbox("Inglix.Use_Hours".Translate(), ref settings.UseHoursForDuration);
             footerListing.End();
             buttonsRect.y += 46f;
             buttonsRect.width = (canvas.width * 0.3f);
@@ -189,6 +225,12 @@ namespace FasterBiosculpterPod
 
                 settings.PowerConsumption = FasterBiosculpterPod_Settings.RecommendedPowerConsumption;
 
+                settings.SteelCost = FasterBiosculpterPod_Settings.RecommendedSteelCost;
+                settings.ComponentIndustrialCost = FasterBiosculpterPod_Settings.RecommendedComponentIndustrialCost;
+                settings.PlasteelCost = FasterBiosculpterPod_Settings.RecommendedPlasteelCost;
+                settings.ComponentSpacerCost = FasterBiosculpterPod_Settings.RecommendedComponentSpacerCost;
+                settings.WorkToBuild = FasterBiosculpterPod_Settings.RecommendedWorkToBuild;
+
                 ApplySettings();
             }
             buttonsRect.x += canvas.width * 0.35f;
@@ -213,6 +255,12 @@ namespace FasterBiosculpterPod
                 settings.BiotuningDurationDays = FasterBiosculpterPod_Settings.VanillaBiotuningDurationTicks / 60000;
 
                 settings.PowerConsumption = FasterBiosculpterPod_Settings.VanillaPowerConsumption;
+
+                settings.SteelCost = FasterBiosculpterPod_Settings.VanillaSteelCost;
+                settings.ComponentIndustrialCost = FasterBiosculpterPod_Settings.VanillaComponentIndustrialCost;
+                settings.PlasteelCost = FasterBiosculpterPod_Settings.VanillaPlasteelCost;
+                settings.ComponentSpacerCost = FasterBiosculpterPod_Settings.VanillaComponentSpacerCost;
+                settings.WorkToBuild = FasterBiosculpterPod_Settings.VanillaWorkToBuild;
 
                 ApplySettings();
             }
@@ -268,13 +316,13 @@ namespace FasterBiosculpterPod
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.BioregenerationCycleDays;
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).nutritionRequired = settings.BioregenerationCycleNutrition;
 
-            List<ThingDefCountClass> requiredExtraIngredients = new List<ThingDefCountClass>();
+            List<ThingDefCountClass> extraRequiredIngredients = new List<ThingDefCountClass>();
             if (settings.BioregenerationCycleMedicineUltratech > 0f)
             {
                 ThingDefCountClass ultratechMedicine = new ThingDefCountClass(ThingDefOf.MedicineUltratech, (int)settings.BioregenerationCycleMedicineUltratech);
-                requiredExtraIngredients.Add(ultratechMedicine);
+                extraRequiredIngredients.Add(ultratechMedicine);
             }
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).extraRequiredIngredients = requiredExtraIngredients;
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_RegenerationCycle)) as CompProperties_BiosculpterPod_HealingCycle).extraRequiredIngredients = extraRequiredIngredients;
 
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_PleasureCycle)) as CompProperties_BiosculpterPod_PleasureCycle).durationDays = settings.PleasureCycleDays;
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_PleasureCycle)) as CompProperties_BiosculpterPod_PleasureCycle).nutritionRequired = settings.PleasureCycleNutrition;
@@ -287,6 +335,34 @@ namespace FasterBiosculpterPod
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = "Inglix.Biosculpter_Description".Translate(settings.BiotuningDurationDays);
             else
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = "Inglix.Biosculpter_Description_No_Biotuning".Translate();
+
+            UpdateCostListItem(settings.SteelCost, ThingDefOf.Steel);
+            UpdateCostListItem(settings.ComponentIndustrialCost, ThingDefOf.ComponentIndustrial);
+            UpdateCostListItem(settings.PlasteelCost, ThingDefOf.Plasteel);
+            UpdateCostListItem(settings.ComponentSpacerCost, ThingDefOf.ComponentSpacer);
+            DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.WorkToBuild;
+        }
+
+        private static void UpdateCostListItem(float setting, ThingDef thingDef)
+        {
+            if (setting > 0f)
+            {
+                if (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Exists(x => x.thingDef == thingDef))
+                {
+                    DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Find(x => x.thingDef == thingDef).count = (int)setting;
+                }
+                else
+                {
+                    DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Add(new ThingDefCountClass(thingDef, (int)setting));
+                }
+            }
+            else
+            {
+                if (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Exists(x => x.thingDef == thingDef))
+                {
+                    DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.RemoveAll(x => x.thingDef == thingDef);
+                }
+            }
         }
 
         public override string SettingsCategory()
