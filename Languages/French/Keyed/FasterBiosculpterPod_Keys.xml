@@ -10,6 +10,7 @@
 	<Inglix.Miscellaneous_Options>Options diverses</Inglix.Miscellaneous_Options>
 	<Inglix.Biotuning_Duration>Durée de la synchronisation biologique</Inglix.Biotuning_Duration>
 	<Inglix.Power_Consumption>Consommation d'énergie</Inglix.Power_Consumption>
+	<Inglix.Building_Cost>Coût de Construction</Inglix.Building_Cost>
 	
 	<Inglix.Cycle_Duration>Durée du cycle</Inglix.Cycle_Duration>
 	<Inglix.Nutrition_Required>Nutrition requise</Inglix.Nutrition_Required>
@@ -17,6 +18,9 @@
 	<Inglix.Age_Reversed>Âge inversé</Inglix.Age_Reversed>
 	<Inglix.Mood_Duration>Durée de l'humeur</Inglix.Mood_Duration>
 	<Inglix.Mood_Effect>Effet d'humeur</Inglix.Mood_Effect>
+	
+	<Inglix.Use_Quadrums>Utiliser les saisons dans les durées</Inglix.Use_Quadrums>
+	<Inglix.Use_Hours>Utiliser les heures dans les durées</Inglix.Use_Hours>
 	
 	<Inglix.Apply_Custom_Values>Appliquer des valeurs personnalisées</Inglix.Apply_Custom_Values>
 	<Inglix.Apply_Recommended_Values>Appliquer les valeurs recommandées</Inglix.Apply_Recommended_Values>

@@ -10,6 +10,7 @@
 	<Inglix.Miscellaneous_Options>Opções Diversas</Inglix.Miscellaneous_Options>
 	<Inglix.Biotuning_Duration>Duração da Biotunização</Inglix.Biotuning_Duration>
 	<Inglix.Power_Consumption>Consumo de Energia</Inglix.Power_Consumption>
+	<Inglix.Building_Cost>Custo de Construção</Inglix.Building_Cost>
 	
 	<Inglix.Cycle_Duration>Duração do Ciclo</Inglix.Cycle_Duration>
 	<Inglix.Nutrition_Required>Nutrição Necessária</Inglix.Nutrition_Required>
@@ -17,6 +18,9 @@
 	<Inglix.Age_Reversed>Idade Invertida</Inglix.Age_Reversed>
 	<Inglix.Mood_Duration>Duração do Humor</Inglix.Mood_Duration>
 	<Inglix.Mood_Effect>Efeito de Humor</Inglix.Mood_Effect>
+	
+	<Inglix.Use_Quadrums>Use o trimestres em durações</Inglix.Use_Quadrums>
+	<Inglix.Use_Hours>Use as horas em durações</Inglix.Use_Hours>
 	
 	<Inglix.Apply_Custom_Values>Aplicar Valores Personalizados</Inglix.Apply_Custom_Values>
 	<Inglix.Apply_Recommended_Values>Aplicar Valores Recomendados</Inglix.Apply_Recommended_Values>
