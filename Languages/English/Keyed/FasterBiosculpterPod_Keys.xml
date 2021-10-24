@@ -9,7 +9,8 @@
 	<Inglix.Pleasure_Cycle>Pleasure Cycle</Inglix.Pleasure_Cycle>
 	<Inglix.Miscellaneous_Options>Miscellaneous Options</Inglix.Miscellaneous_Options>
 	<Inglix.Biotuning_Duration>Biotuning Duration</Inglix.Biotuning_Duration>
-	<Inglix.Power_Consumption>Power Consumption</Inglix.Power_Consumption>
+	<Inglix.Power_Consumption>Active Power Consumption</Inglix.Power_Consumption>
+	<Inglix.Standby_Consumption>Standby Power Consumption</Inglix.Standby_Consumption>
 	<Inglix.Building_Cost>Cost to Build</Inglix.Building_Cost>
 	
 	<Inglix.Cycle_Duration>Cycle Duration</Inglix.Cycle_Duration>
