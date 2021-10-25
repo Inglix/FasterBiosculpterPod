@@ -38,6 +38,8 @@ namespace FasterBiosculpterPod
 
         public const int VanillaBiotuningDurationTicks = 4800000;
         public const int RecommendedBiotuningDurationTicks = 1200000;
+        public const float VanillaBiotunedCycleSpeedFactor = 1.25f;
+        public const float RecommendedBiotunedCycleSpeedFactor = VanillaBiotunedCycleSpeedFactor;
 
         public const float VanillaPowerConsumption = 200f;
         public const float RecommendedPowerConsumption = 800f;
@@ -69,6 +71,7 @@ namespace FasterBiosculpterPod
 
         public float BiotuningDurationTicks = VanillaBiotuningDurationTicks;
         public float BiotuningDurationDays = VanillaBiotuningDurationTicks / 60000;
+        public float BiotunedCycleSpeedFactor = VanillaBiotunedCycleSpeedFactor;
 
         public float PowerConsumption = VanillaPowerConsumption;
         public float StandbyConsumption = VanillaStandbyConsumption;
@@ -101,6 +104,7 @@ namespace FasterBiosculpterPod
 
             Scribe_Values.Look(ref BiotuningDurationTicks, "biotuningDurationTicks", VanillaBiotuningDurationTicks); // Deprecated
             Scribe_Values.Look(ref BiotuningDurationDays, "biotuningDurationDays", BiotuningDurationTicks / 60000);
+            Scribe_Values.Look(ref BiotunedCycleSpeedFactor, "biotunedCycleSpeedFactor", VanillaBiotunedCycleSpeedFactor);
 
             Scribe_Values.Look(ref PowerConsumption, "powerConsumption", VanillaPowerConsumption);
             Scribe_Values.Look(ref StandbyConsumption, "standbyConsumption", VanillaStandbyConsumption);
@@ -168,6 +172,7 @@ namespace FasterBiosculpterPod
             listing.AddLabelLine("Inglix.Miscellaneous_Options".Translate());
             listing.AddLabeledSlider(null, ref settings.NutritionRequired, 0f, 60f, "Inglix.Nutrition_Required".Translate(), null, NutritionRequiredIncrement, true, settings.NutritionRequired.ToString() + " " + "Nutrition".Translate().ToLower(), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.BiotuningDurationDays, 0, 840f, "Inglix.Biotuning_Duration".Translate(), null, 1f, true, ConvertDaysToTicks(settings.BiotuningDurationDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.BiotunedCycleSpeedFactor, 0, 10f, "Inglix.Biotuned_Speed".Translate(), null, 0.05f, true, settings.BiotunedCycleSpeedFactor.ToString("P0"), LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.PowerConsumption, 0f, 10000f, "Inglix.Power_Consumption".Translate(), null, 25f, true, settings.PowerConsumption.ToString() + " W", LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.StandbyConsumption, 0f, 10000f, "Inglix.Standby_Consumption".Translate(), null, 25f, true, settings.StandbyConsumption.ToString() + " W", LeftPartPct);
             listing.AddHorizontalLine(ListingStandardHelper.Gap);
@@ -213,6 +218,7 @@ namespace FasterBiosculpterPod
                 settings.NutritionRequired = FasterBiosculpterPod_Settings.RecommendedNutritionRequired;
 
                 settings.BiotuningDurationDays = FasterBiosculpterPod_Settings.RecommendedBiotuningDurationTicks / 60000;
+                settings.BiotunedCycleSpeedFactor = FasterBiosculpterPod_Settings.RecommendedBiotunedCycleSpeedFactor;
 
                 settings.PowerConsumption = FasterBiosculpterPod_Settings.RecommendedPowerConsumption;
                 settings.StandbyConsumption = FasterBiosculpterPod_Settings.RecommendedStandbyConsumption;
@@ -243,6 +249,7 @@ namespace FasterBiosculpterPod
                 settings.NutritionRequired = FasterBiosculpterPod_Settings.VanillaNutritionRequired;
 
                 settings.BiotuningDurationDays = FasterBiosculpterPod_Settings.VanillaBiotuningDurationTicks / 60000;
+                settings.BiotunedCycleSpeedFactor = FasterBiosculpterPod_Settings.VanillaBiotunedCycleSpeedFactor;
 
                 settings.PowerConsumption = FasterBiosculpterPod_Settings.VanillaPowerConsumption;
                 settings.StandbyConsumption = FasterBiosculpterPod_Settings.VanillaStandbyConsumption;
@@ -322,6 +329,8 @@ namespace FasterBiosculpterPod
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = "Inglix.Biosculpter_Description".Translate(settings.BiotuningDurationDays);
             else
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = "Inglix.Biosculpter_Description_No_Biotuning".Translate();
+
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod)) as CompProperties_BiosculpterPod).biotunedCycleSpeedFactor = settings.BiotunedCycleSpeedFactor;
 
             UpdateCostListItem(settings.SteelCost, ThingDefOf.Steel);
             UpdateCostListItem(settings.ComponentIndustrialCost, ThingDefOf.ComponentIndustrial);
