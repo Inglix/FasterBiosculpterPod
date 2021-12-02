@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using SettingsHelper;
@@ -14,32 +15,32 @@ namespace FasterBiosculpterPod
     public class FasterBiosculpterPod_Settings : ModSettings
     {
         public const float VanillaMedicCycleDays = 6f;
-        public const float RecommendedMedicCycleDays = 1.5f;
+        public const float RecommendedMedicCycleDays = 3f;
 
         public const float VanillaBioregenerationCycleDays = 25f;
         public const float VanillaBioregenerationCycleMedicineUltratech = 2f;
-        public const float RecommendedBioregenerationCycleDays = 6.3f;
+        public const float RecommendedBioregenerationCycleDays = 12.5f;
         public const float RecommendedBioregenerationCycleMedicineUltratech = 1f;
 
         public const float VanillaAgeReversalCycleDays = 8f;
         public const int VanillaAgeReversalTicks = 3600000;
-        public const float RecommendedAgeReversalCycleDays = 2f;
+        public const float RecommendedAgeReversalCycleDays = 4f;
         public const int RecommendedAgeReversalTicks = 3600000;
 
         public const float VanillaPleasureCycleDays = 4f;
         public const float VanillaPleasureCycleMoodDays = 12f;
         public const float VanillaPleasureCycleMoodEffect = 15f;
-        public const float RecommendedPleasureCycleDays = 1f;
+        public const float RecommendedPleasureCycleDays = 2f;
         public const float RecommendedPleasureCycleMoodDays = 12f;
         public const float RecommendedPleasureCycleMoodEffect = 15f;
 
         public const float VanillaNutritionRequired = 5f;
-        public const float RecommendedNutritionRequired = 5f;
+        public const float RecommendedNutritionRequired = 10f;
 
         public const int VanillaBiotuningDurationTicks = 4800000;
         public const int RecommendedBiotuningDurationTicks = 1200000;
         public const float VanillaBiotunedCycleSpeedFactor = 1.25f;
-        public const float RecommendedBiotunedCycleSpeedFactor = VanillaBiotunedCycleSpeedFactor;
+        public const float RecommendedBiotunedCycleSpeedFactor = 2f;
 
         public const float VanillaPowerConsumption = 200f;
         public const float RecommendedPowerConsumption = 800f;
@@ -50,12 +51,31 @@ namespace FasterBiosculpterPod
         public const float VanillaComponentIndustrialCost = 4f;
         public const float VanillaPlasteelCost = 0f;
         public const float VanillaComponentSpacerCost = 0f;
+        public const float VanillaUraniumCost = 0f;
         public const float VanillaWorkToBuild = 28000f;
-        public const float RecommendedSteelCost = VanillaSteelCost;
-        public const float RecommendedComponentIndustrialCost = VanillaComponentIndustrialCost;
-        public const float RecommendedPlasteelCost = VanillaPlasteelCost;
-        public const float RecommendedComponentSpacerCost = VanillaComponentSpacerCost;
-        public const float RecommendedWorkToBuild = VanillaWorkToBuild;
+        public const float RecommendedSteelCost = 90f;
+        public const float RecommendedComponentIndustrialCost = 3f;
+        public const float RecommendedPlasteelCost = 30f;
+        public const float RecommendedComponentSpacerCost = 1f;
+        public const float RecommendedUraniumCost = 1f;
+        public const float RecommendedWorkToBuild = 56000f;
+
+        public const float VanillaResearchBaseCostBiosculpting = 1500f;
+        public const float VanillaResearchBaseCostBioregeneration = 4000f;
+        public const TechLevel VanillaResearchLevelBiosculpting = TechLevel.Industrial;
+        public const TechLevel VanillaResearchLevelBioregeneration = TechLevel.Industrial;
+        public const bool VanillaResearchBiosculptingHiTechResearchBench = false;
+        public const bool VanillaResearchBiosculptingMultiAnalyzer = false;
+        public const bool VanillaResearchBioregenerationHiTechResearchBench = true;
+        public const bool VanillaResearchBioregenerationMultiAnalyzer = true;
+        public const float RecommendedResearchBaseCostBiosculpting = 3000f;
+        public const float RecommendedResearchBaseCostBioregeneration = 8000f;
+        public const TechLevel RecommendedResearchLevelBiosculpting = TechLevel.Spacer;
+        public const TechLevel RecommendedResearchLevelBioregeneration = TechLevel.Ultra;
+        public const bool RecommendedResearchBiosculptingHiTechResearchBench = true;
+        public const bool RecommendedResearchBiosculptingMultiAnalyzer = false;
+        public const bool RecommendedResearchBioregenerationHiTechResearchBench = true;
+        public const bool RecommendedResearchBioregenerationMultiAnalyzer = true;
 
         public float MedicCycleDays = VanillaMedicCycleDays;
         public float BioregenerationCycleDays = VanillaBioregenerationCycleDays;
@@ -80,7 +100,17 @@ namespace FasterBiosculpterPod
         public float ComponentIndustrialCost = VanillaComponentIndustrialCost;
         public float PlasteelCost = VanillaPlasteelCost;
         public float ComponentSpacerCost = VanillaComponentSpacerCost;
+        public float UraniumCost = VanillaUraniumCost;
         public float WorkToBuild = VanillaWorkToBuild;
+
+        public float ResearchBaseCostBiosculpting = VanillaResearchBaseCostBiosculpting;
+        public float ResearchBaseCostBioregeneration = VanillaResearchBaseCostBioregeneration;
+        public TechLevel ResearchLevelBiosculpting = VanillaResearchLevelBiosculpting;
+        public TechLevel ResearchLevelBioregeneration = VanillaResearchLevelBioregeneration;
+        public bool ResearchBiosculptingHiTechResearchBench = VanillaResearchBiosculptingHiTechResearchBench;
+        public bool ResearchBiosculptingMultiAnalyzer = VanillaResearchBiosculptingMultiAnalyzer;
+        public bool ResearchBioregenerationHiTechResearchBench = VanillaResearchBioregenerationHiTechResearchBench;
+        public bool ResearchBioregenerationMultiAnalyzer = VanillaResearchBioregenerationMultiAnalyzer;
 
         public bool UseQuadrumsForDuration = true;
         public bool UseHoursForDuration = true;
@@ -113,7 +143,19 @@ namespace FasterBiosculpterPod
             Scribe_Values.Look(ref ComponentIndustrialCost, "componentIndustrialCost", VanillaComponentIndustrialCost);
             Scribe_Values.Look(ref PlasteelCost, "plasteelCost", VanillaPlasteelCost);
             Scribe_Values.Look(ref ComponentSpacerCost, "componentSpacerCost", VanillaComponentSpacerCost);
+            Scribe_Values.Look(ref UraniumCost, "uraniumCost", VanillaUraniumCost);
             Scribe_Values.Look(ref WorkToBuild, "workToBuild", VanillaWorkToBuild);
+
+            Scribe_Values.Look(ref ResearchBaseCostBiosculpting, "researchBaseCostBiosculpting", VanillaResearchBaseCostBiosculpting);
+            Scribe_Values.Look(ref ResearchBaseCostBioregeneration, "researchBaseCostBioregeneration", VanillaResearchBaseCostBioregeneration);
+
+            Scribe_Values.Look(ref ResearchLevelBiosculpting, "researchLevelBiosculpting", VanillaResearchLevelBiosculpting);
+            Scribe_Values.Look(ref ResearchLevelBioregeneration, "researchLevelBioregeneration", VanillaResearchLevelBioregeneration);
+
+            Scribe_Values.Look(ref ResearchBiosculptingHiTechResearchBench, "researchBiosculptingHiTechResearchBench", VanillaResearchBiosculptingHiTechResearchBench);
+            Scribe_Values.Look(ref ResearchBiosculptingMultiAnalyzer, "researchBiosculptingMultiAnalyzer", VanillaResearchBiosculptingMultiAnalyzer);
+            Scribe_Values.Look(ref ResearchBioregenerationHiTechResearchBench, "researchBioregenerationHiTechResearchBench", VanillaResearchBioregenerationHiTechResearchBench);
+            Scribe_Values.Look(ref ResearchBioregenerationMultiAnalyzer, "researchBioregenerationMultiAnalyzer", VanillaResearchBioregenerationMultiAnalyzer);
 
             Scribe_Values.Look(ref UseQuadrumsForDuration, "useQuadrumsForDuration", true);
             Scribe_Values.Look(ref UseHoursForDuration, "useHoursForDuration", true);
@@ -141,17 +183,26 @@ namespace FasterBiosculpterPod
             const float CycleDurationIncrement = 0.1f; // Increment cycle durations by 0.1 day increments (2.4 hours)
             const float NutritionRequiredIncrement = 0.1f; // Increment nutrition required by 0.1 nutrition increments
             string glitterworldMedicineName = DefDatabase<ThingDef>.GetNamed("MedicineUltratech").label;
+            string biosculptingResearchName = DefDatabase<ResearchProjectDef>.GetNamed("Biosculpting").label;
+            string bioregenerationResearchName = DefDatabase<ResearchProjectDef>.GetNamed("Bioregeneration").label;
 
             string steel = DefDatabase<ThingDef>.GetNamed("Steel").label;
             string plasteel = DefDatabase<ThingDef>.GetNamed("Plasteel").label;
             string component = DefDatabase<ThingDef>.GetNamed("ComponentIndustrial").label;
             string advancedComponent = DefDatabase<ThingDef>.GetNamed("ComponentSpacer").label;
+            string uranium = DefDatabase<ThingDef>.GetNamed("Uranium").label;
             string workToBuild = DefDatabase<StatDef>.GetNamed("WorkToBuild").label;
+
+            Dictionary<String, TechLevel> techLevels = new Dictionary<string, TechLevel>();
+            techLevels.Add("TechLevel_Industrial".Translate().CapitalizeFirst(), TechLevel.Industrial);
+            techLevels.Add("TechLevel_Spacer".Translate().CapitalizeFirst(), TechLevel.Spacer);
+            techLevels.Add("TechLevel_Ultra".Translate().CapitalizeFirst(), TechLevel.Ultra);
     
             Rect outRect = canvas.TopPartPixels(484f);
-            Rect rect = new Rect(0f, 0f, outRect.width - 18f, 910.0f);
+            Rect rect = new Rect(0f, 0f, outRect.width - 33f, 1332.5f);
             Widgets.BeginScrollView(outRect, ref scrollPosition, rect, true);
             Listing_Standard listing = new Listing_Standard();
+            listing.maxOneColumn = true;
             listing.Begin(rect);
             listing.AddLabelLine("Inglix.Medic_Cycle".Translate());
             listing.AddLabeledSlider(null, ref settings.MedicCycleDays, 0f, 60f, "Inglix.Cycle_Duration".Translate(), null, CycleDurationIncrement, true, ConvertDaysToTicks(settings.MedicCycleDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration), LeftPartPct);
@@ -181,7 +232,67 @@ namespace FasterBiosculpterPod
             listing.AddLabeledSlider(null, ref settings.ComponentIndustrialCost, 0, 100f, component.ToTitleCase(), null, 1f, true, settings.ComponentIndustrialCost + " " + component, LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.PlasteelCost, 0, 1000f, plasteel.ToTitleCase(), null, 1f, true, settings.PlasteelCost + " " + plasteel, LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.ComponentSpacerCost, 0, 100f, advancedComponent.ToTitleCase(), null, 1f, true, settings.ComponentSpacerCost + " " + advancedComponent, LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.UraniumCost, 0, 100f, uranium.ToTitleCase(), null, 1f, true, settings.UraniumCost + " " + uranium, LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.WorkToBuild, 0, 600000f, workToBuild.ToTitleCase(), null, 60f, true, Mathf.CeilToInt(settings.WorkToBuild / 60).ToString() + " " + workToBuild, LeftPartPct);
+            listing.AddHorizontalLine(ListingStandardHelper.Gap);
+            listing.AddLabelLine("Inglix.Research_Cost".Translate());
+            listing.AddLabeledSlider(null, ref settings.ResearchBaseCostBiosculpting, 0, 15000f, biosculptingResearchName.CapitalizeFirst(), null, 100f, true, settings.ResearchBaseCostBiosculpting.ToString(), LeftPartPct);
+            listing.AddLabeledSlider(null, ref settings.ResearchBaseCostBioregeneration, 0, 15000f, bioregenerationResearchName.CapitalizeFirst(), null, 100f, true, settings.ResearchBaseCostBioregeneration.ToString(), LeftPartPct);
+            listing.AddHorizontalLine(ListingStandardHelper.Gap);
+
+            Rect rect2 = listing.GetRect(210f);
+            Listing_Standard listing2 = new Listing_Standard();
+            listing2.ColumnWidth = ((rect2.width - 17) / 2);
+            listing2.Begin(rect2);
+            listing2.AddLabeledRadioList<TechLevel>("Inglix.Biosculpting_Research".Translate(), techLevels, ref settings.ResearchLevelBiosculpting);
+            listing2.AddLabeledCheckbox("Inglix.Require_HiTechBench".Translate(), ref settings.ResearchBiosculptingHiTechResearchBench);
+            listing2.AddLabeledCheckbox("Inglix.Require_MultiAnalyzer".Translate(), ref settings.ResearchBiosculptingMultiAnalyzer);
+            listing2.NewColumn();
+            listing2.AddLabeledRadioList<TechLevel>("Inglix.Bioregeneration_Research".Translate(), techLevels, ref settings.ResearchLevelBioregeneration);
+            listing2.AddLabeledCheckbox("Inglix.Require_HiTechBench".Translate(), ref settings.ResearchBioregenerationHiTechResearchBench);
+            listing2.AddLabeledCheckbox("Inglix.Require_MultiAnalyzer".Translate(), ref settings.ResearchBioregenerationMultiAnalyzer);
+            listing2.End();
+
+            // Enforce logical inheritence of requirements
+            {
+                if (settings.ResearchLevelBiosculpting > settings.ResearchLevelBioregeneration)
+                {
+                    settings.ResearchLevelBioregeneration = settings.ResearchLevelBiosculpting;
+                }
+                if (settings.ResearchBiosculptingHiTechResearchBench)
+                {
+                    settings.ResearchBioregenerationHiTechResearchBench = true;
+                }
+                if (settings.ResearchBiosculptingMultiAnalyzer)
+                {
+                    settings.ResearchBioregenerationMultiAnalyzer = true;
+                }
+                if (!settings.ResearchBiosculptingHiTechResearchBench)
+                {
+                    settings.ResearchBiosculptingMultiAnalyzer = false;
+                }
+                if (!settings.ResearchBioregenerationHiTechResearchBench)
+                {
+                    settings.ResearchBioregenerationMultiAnalyzer = false;
+                }
+                if (settings.ResearchLevelBiosculpting > TechLevel.Industrial)
+                {
+                    settings.ResearchBiosculptingHiTechResearchBench = true;
+                }
+                if (settings.ResearchLevelBioregeneration > TechLevel.Industrial)
+                {
+                    settings.ResearchBioregenerationHiTechResearchBench = true;
+                }
+                if (settings.ResearchLevelBiosculpting > TechLevel.Spacer)
+                {
+                    settings.ResearchBiosculptingMultiAnalyzer = true;
+                }
+                if (settings.ResearchLevelBioregeneration > TechLevel.Spacer)
+                {
+                    settings.ResearchBioregenerationMultiAnalyzer = true;
+                }
+            }
+
             listing.End();
             Widgets.EndScrollView();
 
@@ -227,7 +338,19 @@ namespace FasterBiosculpterPod
                 settings.ComponentIndustrialCost = FasterBiosculpterPod_Settings.RecommendedComponentIndustrialCost;
                 settings.PlasteelCost = FasterBiosculpterPod_Settings.RecommendedPlasteelCost;
                 settings.ComponentSpacerCost = FasterBiosculpterPod_Settings.RecommendedComponentSpacerCost;
+                settings.UraniumCost = FasterBiosculpterPod_Settings.RecommendedUraniumCost;
                 settings.WorkToBuild = FasterBiosculpterPod_Settings.RecommendedWorkToBuild;
+
+                settings.ResearchBaseCostBiosculpting = FasterBiosculpterPod_Settings.RecommendedResearchBaseCostBiosculpting;
+                settings.ResearchBaseCostBioregeneration = FasterBiosculpterPod_Settings.RecommendedResearchBaseCostBioregeneration;
+
+                settings.ResearchLevelBiosculpting = FasterBiosculpterPod_Settings.RecommendedResearchLevelBiosculpting;
+                settings.ResearchLevelBioregeneration = FasterBiosculpterPod_Settings.RecommendedResearchLevelBioregeneration;
+
+                settings.ResearchBiosculptingHiTechResearchBench = FasterBiosculpterPod_Settings.RecommendedResearchBiosculptingHiTechResearchBench;
+                settings.ResearchBiosculptingMultiAnalyzer = FasterBiosculpterPod_Settings.RecommendedResearchBiosculptingMultiAnalyzer;
+                settings.ResearchBioregenerationHiTechResearchBench = FasterBiosculpterPod_Settings.RecommendedResearchBioregenerationHiTechResearchBench;
+                settings.ResearchBioregenerationMultiAnalyzer = FasterBiosculpterPod_Settings.RecommendedResearchBioregenerationMultiAnalyzer;
 
                 ApplySettings();
             }
@@ -258,7 +381,19 @@ namespace FasterBiosculpterPod
                 settings.ComponentIndustrialCost = FasterBiosculpterPod_Settings.VanillaComponentIndustrialCost;
                 settings.PlasteelCost = FasterBiosculpterPod_Settings.VanillaPlasteelCost;
                 settings.ComponentSpacerCost = FasterBiosculpterPod_Settings.VanillaComponentSpacerCost;
+                settings.UraniumCost = FasterBiosculpterPod_Settings.VanillaUraniumCost;
                 settings.WorkToBuild = FasterBiosculpterPod_Settings.VanillaWorkToBuild;
+
+                settings.ResearchBaseCostBiosculpting = FasterBiosculpterPod_Settings.VanillaResearchBaseCostBiosculpting;
+                settings.ResearchBaseCostBioregeneration = FasterBiosculpterPod_Settings.VanillaResearchBaseCostBioregeneration;
+
+                settings.ResearchLevelBiosculpting = FasterBiosculpterPod_Settings.VanillaResearchLevelBiosculpting;
+                settings.ResearchLevelBioregeneration = FasterBiosculpterPod_Settings.VanillaResearchLevelBioregeneration;
+
+                settings.ResearchBiosculptingHiTechResearchBench = FasterBiosculpterPod_Settings.VanillaResearchBiosculptingHiTechResearchBench;
+                settings.ResearchBiosculptingMultiAnalyzer = FasterBiosculpterPod_Settings.VanillaResearchBiosculptingMultiAnalyzer;
+                settings.ResearchBioregenerationHiTechResearchBench = FasterBiosculpterPod_Settings.VanillaResearchBioregenerationHiTechResearchBench;
+                settings.ResearchBioregenerationMultiAnalyzer = FasterBiosculpterPod_Settings.VanillaResearchBioregenerationMultiAnalyzer;
 
                 ApplySettings();
             }
@@ -336,7 +471,69 @@ namespace FasterBiosculpterPod
             UpdateCostListItem(settings.ComponentIndustrialCost, ThingDefOf.ComponentIndustrial);
             UpdateCostListItem(settings.PlasteelCost, ThingDefOf.Plasteel);
             UpdateCostListItem(settings.ComponentSpacerCost, ThingDefOf.ComponentSpacer);
+            UpdateCostListItem(settings.UraniumCost, ThingDefOf.Uranium);
             DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.WorkToBuild;
+
+            ResearchProjectDef biosculpting = DefDatabase<ResearchProjectDef>.GetNamed("Biosculpting", true);
+            biosculpting.baseCost = settings.ResearchBaseCostBiosculpting;
+            biosculpting.techLevel = settings.ResearchLevelBiosculpting;
+            UpdateResearchPrerequisites(settings.ResearchBiosculptingHiTechResearchBench, settings.ResearchBiosculptingMultiAnalyzer, biosculpting);
+            ResearchProjectDef bioregeneration = DefDatabase<ResearchProjectDef>.GetNamed("Bioregeneration", true);
+            bioregeneration.baseCost = settings.ResearchBaseCostBioregeneration;
+            bioregeneration.techLevel = settings.ResearchLevelBioregeneration;
+            UpdateResearchPrerequisites(settings.ResearchBioregenerationHiTechResearchBench, settings.ResearchBioregenerationMultiAnalyzer, bioregeneration);
+            RegenerateResearchTree();
+        }
+
+        private static void UpdateResearchPrerequisites(bool hiTechResearchBench, bool multiAnalyzer, ResearchProjectDef researchProject)
+        {
+            if (hiTechResearchBench)
+            {
+                if (researchProject.requiredResearchBuilding == null)
+                {
+                    researchProject.requiredResearchBuilding = ThingDef.Named("HiTechResearchBench");
+                }
+            }
+            else
+            {
+                researchProject.requiredResearchBuilding = null;
+            }
+            if (multiAnalyzer)
+            {
+                if (researchProject.requiredResearchFacilities == null)
+                {
+                    researchProject.requiredResearchFacilities = new List<ThingDef>();
+                }
+                if (!researchProject.requiredResearchFacilities.Contains(ThingDef.Named("MultiAnalyzer")))
+                {
+                    researchProject.requiredResearchFacilities.Add(ThingDef.Named("MultiAnalyzer"));
+                }
+                if (!researchProject.prerequisites.Contains(ResearchProjectDef.Named("MultiAnalyzer")))
+                {
+                    researchProject.prerequisites.Add(ResearchProjectDef.Named("MultiAnalyzer"));
+                }
+            }
+            else
+            {
+                if (!researchProject.requiredResearchFacilities.NullOrEmpty() && researchProject.requiredResearchFacilities.Contains(ThingDef.Named("MultiAnalyzer")))
+                {
+                    researchProject.requiredResearchFacilities.Remove(ThingDef.Named("MultiAnalyzer"));
+                }
+                if (researchProject.prerequisites.Contains(ResearchProjectDef.Named("MultiAnalyzer")))
+                {
+                    researchProject.prerequisites.Remove(ResearchProjectDef.Named("MultiAnalyzer"));
+                }
+            }
+        }
+
+        private static void RegenerateResearchTree()
+        {
+            if (LoadedModManager.RunningModsListForReading.Find(mod => mod.PackageId.EqualsIgnoreCase("VinaLx.ResearchPalForked")) != null)
+            {
+                Type tree = Type.GetType("ResearchPal.Tree,ResearchTree");
+                MethodInfo resetLayout = tree.GetMethod("ResetLayout");
+                var task = Task.Run(() => resetLayout.Invoke(null, null));
+            }
         }
 
         private static void UpdateCostListItem(float setting, ThingDef thingDef)

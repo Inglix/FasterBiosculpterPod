@@ -12,7 +12,13 @@
 	<Inglix.Biotuned_Speed>Biotuned Cycle Speed Factor</Inglix.Biotuned_Speed>
 	<Inglix.Power_Consumption>Active Power Consumption</Inglix.Power_Consumption>
 	<Inglix.Standby_Consumption>Standby Power Consumption</Inglix.Standby_Consumption>
-	<Inglix.Building_Cost>Cost to Build</Inglix.Building_Cost>
+	<Inglix.Building_Cost>Building Cost</Inglix.Building_Cost>
+	<Inglix.Research_Cost>Research Cost</Inglix.Research_Cost>
+	
+	<Inglix.Biosculpting_Research>Biosculpting Research</Inglix.Biosculpting_Research>
+	<Inglix.Bioregeneration_Research>Bioregeneration Research</Inglix.Bioregeneration_Research>
+	<Inglix.Require_HiTechBench>Requires Hi-tech Research Bench</Inglix.Require_HiTechBench>
+	<Inglix.Require_MultiAnalyzer>Requires Multi-analyzer</Inglix.Require_MultiAnalyzer>
 	
 	<Inglix.Cycle_Duration>Cycle Duration</Inglix.Cycle_Duration>
 	<Inglix.Nutrition_Required>Nutrition Required</Inglix.Nutrition_Required>
