@@ -377,6 +377,22 @@ namespace FasterBiosculpterPod
         }
     }
 
+    [HarmonyPatch(typeof(CompBiosculpterPod))]
+    [HarmonyPatch(nameof(CompBiosculpterPod.SetBiotuned))]
+    class PatchSetBiotuned
+    {
+        static bool Prefix(CompBiosculpterPod __instance, Pawn newBiotunedTo)
+        {
+            FieldInfo biotunedTo = __instance.GetType().GetField("biotunedTo", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (newBiotunedTo == biotunedTo.GetValue(__instance))
+            {
+                return false;
+            }
+            return true;
+        }
+    }
+
     [HarmonyPatch]
     class TranspileNutritionRequired
     {
