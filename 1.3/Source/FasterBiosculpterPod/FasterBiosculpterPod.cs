@@ -385,8 +385,8 @@ namespace FasterBiosculpterPod
         {
             yield return AccessTools.Method(typeof(CompBiosculpterPod), "get_RequiredNutritionRemaining");
             yield return AccessTools.Method(typeof(CompBiosculpterPod), "CompInspectStringExtra");
-            yield return AccessTools.Method(typeof(CompBiosculpterPod), "<CompGetGizmosExtra>b__83_9");
-            yield return AccessTools.Method(typeof(CompBiosculpterPod).GetNestedType("<CompGetGizmosExtra>d__83", BindingFlags.NonPublic), "MoveNext");
+            yield return AccessTools.Method(typeof(CompBiosculpterPod), "<CompGetGizmosExtra>b__88_9");
+            yield return AccessTools.Method(typeof(CompBiosculpterPod).GetNestedType("<CompGetGizmosExtra>d__88", BindingFlags.NonPublic), "MoveNext");
             yield return AccessTools.Method(typeof(CompBiosculpterPod), "LiquifyNutrition");
         }
             
