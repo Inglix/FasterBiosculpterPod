@@ -9,7 +9,9 @@
 	<Inglix.Pleasure_Cycle>Cycle de plaisir</Inglix.Pleasure_Cycle>
 	<Inglix.Miscellaneous_Options>Options diverses</Inglix.Miscellaneous_Options>
 	<Inglix.Biotuning_Duration>Durée de la synchronisation biologique</Inglix.Biotuning_Duration>
-	<Inglix.Power_Consumption>Consommation d'énergie</Inglix.Power_Consumption>
+	<Inglix.Biotuned_Speed>Facteur de vitesse de cycle synchronisé</Inglix.Biotuned_Speed>
+	<Inglix.Power_Consumption>Consommation d'énergie active</Inglix.Power_Consumption>
+	<Inglix.Standby_Consumption>Consommation d'énergie en veille</Inglix.Standby_Consumption>
 	<Inglix.Building_Cost>Coût de Construction</Inglix.Building_Cost>
 	
 	<Inglix.Cycle_Duration>Durée du cycle</Inglix.Cycle_Duration>
