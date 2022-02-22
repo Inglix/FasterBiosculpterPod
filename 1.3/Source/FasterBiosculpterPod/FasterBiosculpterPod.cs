@@ -124,12 +124,14 @@ namespace FasterBiosculpterPod
 
     public class FasterBiosculpterPod_Mod : Mod
     {
+        public string modVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public static FasterBiosculpterPod_Settings settings;
         private Vector2 scrollPosition;
 
         public FasterBiosculpterPod_Mod(ModContentPack content) : base(content)
         {
             settings = GetSettings<FasterBiosculpterPod_Settings>();
+            modVersion = modVersion.Substring(0, modVersion.LastIndexOf('.'));
         }
 
         public override void DoSettingsWindowContents(Rect canvas)
@@ -185,7 +187,7 @@ namespace FasterBiosculpterPod
             listing.End();
             Widgets.EndScrollView();
 
-            Rect buttonsRect = canvas.BottomPartPixels(100f);//.LeftPart(0.3f);
+            Rect buttonsRect = canvas.BottomPartPixels(100f);
             buttonsRect.height = 35f;
             Listing_Standard footerListing = new Listing_Standard();
             footerListing.ColumnWidth = ((canvas.width - 30) / 2) - 2;
@@ -262,6 +264,10 @@ namespace FasterBiosculpterPod
 
                 ApplySettings();
             }
+            buttonsRect.y += 35f;
+            buttonsRect.x = 0f;
+            buttonsRect.width = canvas.width;
+            Widgets.Label(buttonsRect, "Version: " + modVersion);
 
             base.DoSettingsWindowContents(canvas);
         }
