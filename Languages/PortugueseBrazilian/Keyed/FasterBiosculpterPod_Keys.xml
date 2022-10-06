@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-
+	<Inglix.Installed_Version>Versão Instalada</Inglix.Installed_Version>
 	<Inglix.Faster_Biosculpter_Pod>Bioescultor Rápido</Inglix.Faster_Biosculpter_Pod>
 	
 	<Inglix.Medic_Cycle>Ciclo de Medicina</Inglix.Medic_Cycle>
@@ -13,6 +13,12 @@
 	<Inglix.Power_Consumption>Consumo de Energia Ativa</Inglix.Power_Consumption>
 	<Inglix.Standby_Consumption>Consumo de Energia em Espera</Inglix.Standby_Consumption>
 	<Inglix.Building_Cost>Custo de Construção</Inglix.Building_Cost>
+	<Inglix.Research_Cost>Custo de Pesquisa</Inglix.Research_Cost>
+	
+	<Inglix.Biosculpting_Research>Pesquisa de Bioescultura</Inglix.Biosculpting_Research>
+	<Inglix.Bioregeneration_Research>Pesquisa de Bioregeneração</Inglix.Bioregeneration_Research>
+	<Inglix.Require_HiTechBench>Requer Bancada de Pesquisa de Alta Tecnologia</Inglix.Require_HiTechBench>
+	<Inglix.Require_MultiAnalyzer>Requer Multi-analisador</Inglix.Require_MultiAnalyzer>
 	
 	<Inglix.Cycle_Duration>Duração do Ciclo</Inglix.Cycle_Duration>
 	<Inglix.Nutrition_Required>Nutrição Necessária</Inglix.Nutrition_Required>
