@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-
+	<Inglix.Installed_Version>Installed Version</Inglix.Installed_Version>
 	<Inglix.Faster_Biosculpter_Pod>Faster Biosculpter Pod</Inglix.Faster_Biosculpter_Pod>
 	
 	<Inglix.Medic_Cycle>Medic Cycle</Inglix.Medic_Cycle>
@@ -36,5 +36,7 @@
 	
 	<Inglix.Biosculpter_Description>An immersive pod equipped with a biosculpting fluid injector and attached control system. It can perform a variety of biological alterations including age reversal and pleasure-giving. Each pod becomes biotuned to its user, and cannot be used by anyone else. Biotuning resets after {0} days. Believers in transhumanism believe biosculpter pods are of critical importance in their quest to transcend normal human physical limitations.</Inglix.Biosculpter_Description>
 	<Inglix.Biosculpter_Description_No_Biotuning>An immersive pod equipped with a biosculpting fluid injector and attached control system. It can perform a variety of biological alterations including age reversal and pleasure-giving. Believers in transhumanism believe biosculpter pods are of critical importance in their quest to transcend normal human physical limitations.</Inglix.Biosculpter_Description_No_Biotuning>
+	
+	<BiosculpterAutoAgeReversalDescription>Automatically satisfy {PAWN_labelShort}'s desire to run an age reversal treatment in this pod, in accordance with {PAWN_possessive} beliefs. {NEXTTREATMENT}</BiosculpterAutoAgeReversalDescription>
 	
 </LanguageData>

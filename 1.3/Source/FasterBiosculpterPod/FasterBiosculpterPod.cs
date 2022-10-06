@@ -12,6 +12,12 @@ using SettingsHelper;
 
 namespace FasterBiosculpterPod
 {
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class HotSwappableAttribute : Attribute
+    {
+    }
+
+    [HotSwappable]
     public class FasterBiosculpterPod_Settings : ModSettings
     {
         public const float VanillaMedicCycleDays = 6f;
@@ -20,7 +26,7 @@ namespace FasterBiosculpterPod
         public const float VanillaBioregenerationCycleDays = 25f;
         public const float VanillaBioregenerationCycleMedicineUltratech = 2f;
         public const float RecommendedBioregenerationCycleDays = 12.5f;
-        public const float RecommendedBioregenerationCycleMedicineUltratech = 1f;
+        public const float RecommendedBioregenerationCycleMedicineUltratech = VanillaBioregenerationCycleMedicineUltratech;
 
         public const float VanillaAgeReversalCycleDays = 8f;
         public const int VanillaAgeReversalTicks = 3600000;
@@ -31,21 +37,21 @@ namespace FasterBiosculpterPod
         public const float VanillaPleasureCycleMoodDays = 12f;
         public const float VanillaPleasureCycleMoodEffect = 15f;
         public const float RecommendedPleasureCycleDays = 2f;
-        public const float RecommendedPleasureCycleMoodDays = 12f;
-        public const float RecommendedPleasureCycleMoodEffect = 15f;
+        public const float RecommendedPleasureCycleMoodDays = VanillaPleasureCycleMoodDays;
+        public const float RecommendedPleasureCycleMoodEffect = VanillaPleasureCycleMoodEffect;
 
         public const float VanillaNutritionRequired = 5f;
-        public const float RecommendedNutritionRequired = 10f;
+        public const float RecommendedNutritionRequired = VanillaNutritionRequired;
 
         public const int VanillaBiotuningDurationTicks = 4800000;
-        public const int RecommendedBiotuningDurationTicks = 1200000;
+        public const int RecommendedBiotuningDurationTicks = VanillaBiotuningDurationTicks;
         public const float VanillaBiotunedCycleSpeedFactor = 1.25f;
-        public const float RecommendedBiotunedCycleSpeedFactor = 2f;
+        public const float RecommendedBiotunedCycleSpeedFactor = VanillaBiotunedCycleSpeedFactor;
 
         public const float VanillaPowerConsumption = 200f;
         public const float RecommendedPowerConsumption = 800f;
         public const float VanillaStandbyConsumption = 50f;
-        public const float RecommendedStandbyConsumption = 200f;
+        public const float RecommendedStandbyConsumption = 0f;
 
         public const float VanillaSteelCost = 120f;
         public const float VanillaComponentIndustrialCost = 4f;
@@ -53,25 +59,25 @@ namespace FasterBiosculpterPod
         public const float VanillaComponentSpacerCost = 0f;
         public const float VanillaUraniumCost = 0f;
         public const float VanillaWorkToBuild = 28000f;
-        public const float RecommendedSteelCost = 90f;
-        public const float RecommendedComponentIndustrialCost = 3f;
-        public const float RecommendedPlasteelCost = 30f;
-        public const float RecommendedComponentSpacerCost = 1f;
-        public const float RecommendedUraniumCost = 1f;
-        public const float RecommendedWorkToBuild = 56000f;
+        public const float RecommendedSteelCost = VanillaSteelCost;
+        public const float RecommendedComponentIndustrialCost = VanillaComponentIndustrialCost;
+        public const float RecommendedPlasteelCost = VanillaPlasteelCost;
+        public const float RecommendedComponentSpacerCost = VanillaComponentSpacerCost;
+        public const float RecommendedUraniumCost = VanillaUraniumCost;
+        public const float RecommendedWorkToBuild = VanillaWorkToBuild;
 
         public const float VanillaResearchBaseCostBiosculpting = 1500f;
         public const float VanillaResearchBaseCostBioregeneration = 4000f;
         public const TechLevel VanillaResearchLevelBiosculpting = TechLevel.Industrial;
         public const TechLevel VanillaResearchLevelBioregeneration = TechLevel.Industrial;
-        public const bool VanillaResearchBiosculptingHiTechResearchBench = false;
+        public const bool VanillaResearchBiosculptingHiTechResearchBench = true;
         public const bool VanillaResearchBiosculptingMultiAnalyzer = false;
         public const bool VanillaResearchBioregenerationHiTechResearchBench = true;
         public const bool VanillaResearchBioregenerationMultiAnalyzer = true;
-        public const float RecommendedResearchBaseCostBiosculpting = 3000f;
-        public const float RecommendedResearchBaseCostBioregeneration = 8000f;
-        public const TechLevel RecommendedResearchLevelBiosculpting = TechLevel.Spacer;
-        public const TechLevel RecommendedResearchLevelBioregeneration = TechLevel.Ultra;
+        public const float RecommendedResearchBaseCostBiosculpting = VanillaResearchBaseCostBiosculpting;
+        public const float RecommendedResearchBaseCostBioregeneration = VanillaResearchBaseCostBioregeneration;
+        public const TechLevel RecommendedResearchLevelBiosculpting = VanillaResearchLevelBiosculpting;
+        public const TechLevel RecommendedResearchLevelBioregeneration = VanillaResearchLevelBioregeneration;
         public const bool RecommendedResearchBiosculptingHiTechResearchBench = true;
         public const bool RecommendedResearchBiosculptingMultiAnalyzer = false;
         public const bool RecommendedResearchBioregenerationHiTechResearchBench = true;
@@ -96,6 +102,9 @@ namespace FasterBiosculpterPod
         public float PowerConsumption = VanillaPowerConsumption;
         public float StandbyConsumption = VanillaStandbyConsumption;
 
+        public bool EnableBuildCostSettings = false;
+        public List<ThingDefCountClass> InitialCostList;
+        public float InitialWorkToBuild;
         public float SteelCost = VanillaSteelCost;
         public float ComponentIndustrialCost = VanillaComponentIndustrialCost;
         public float PlasteelCost = VanillaPlasteelCost;
@@ -139,6 +148,7 @@ namespace FasterBiosculpterPod
             Scribe_Values.Look(ref PowerConsumption, "powerConsumption", VanillaPowerConsumption);
             Scribe_Values.Look(ref StandbyConsumption, "standbyConsumption", VanillaStandbyConsumption);
 
+            Scribe_Values.Look(ref EnableBuildCostSettings, "enableBuildCostSettings", false);
             Scribe_Values.Look(ref SteelCost, "steelCost", VanillaSteelCost);
             Scribe_Values.Look(ref ComponentIndustrialCost, "componentIndustrialCost", VanillaComponentIndustrialCost);
             Scribe_Values.Look(ref PlasteelCost, "plasteelCost", VanillaPlasteelCost);
@@ -164,6 +174,7 @@ namespace FasterBiosculpterPod
         }
     }
 
+    [HotSwappable]
     public class FasterBiosculpterPod_Mod : Mod
     {
         public string modVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -200,8 +211,8 @@ namespace FasterBiosculpterPod
             techLevels.Add("TechLevel_Spacer".Translate().CapitalizeFirst(), TechLevel.Spacer);
             techLevels.Add("TechLevel_Ultra".Translate().CapitalizeFirst(), TechLevel.Ultra);
     
-            Rect outRect = canvas.TopPartPixels(484f);
-            Rect rect = new Rect(0f, 0f, outRect.width - 33f, 1332.5f);
+            Rect outRect = canvas.TopPartPixels(472f);
+            Rect rect = new Rect(0f, 0f, outRect.width - 33f, 1365.0f);
             Widgets.BeginScrollView(outRect, ref scrollPosition, rect, true);
             Listing_Standard listing = new Listing_Standard();
             listing.maxOneColumn = true;
@@ -230,6 +241,7 @@ namespace FasterBiosculpterPod
             listing.AddLabeledSlider(null, ref settings.StandbyConsumption, 0f, 10000f, "Inglix.Standby_Consumption".Translate(), null, 25f, true, settings.StandbyConsumption.ToString() + " W", LeftPartPct);
             listing.AddHorizontalLine(ListingStandardHelper.Gap);
             listing.AddLabelLine("Inglix.Building_Cost".Translate());
+            listing.AddLabeledCheckbox("Enable Building Cost Settings", ref settings.EnableBuildCostSettings);
             listing.AddLabeledSlider(null, ref settings.SteelCost, 0, 1000f, steel.ToTitleCase(), null, 1f, true, settings.SteelCost + " " + steel, LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.ComponentIndustrialCost, 0, 100f, component.ToTitleCase(), null, 1f, true, settings.ComponentIndustrialCost + " " + component, LeftPartPct);
             listing.AddLabeledSlider(null, ref settings.PlasteelCost, 0, 1000f, plasteel.ToTitleCase(), null, 1f, true, settings.PlasteelCost + " " + plasteel, LeftPartPct);
@@ -247,12 +259,18 @@ namespace FasterBiosculpterPod
             listing2.ColumnWidth = ((rect2.width - 17) / 2);
             listing2.Begin(rect2);
             listing2.AddLabeledRadioList<TechLevel>("Inglix.Biosculpting_Research".Translate(), techLevels, ref settings.ResearchLevelBiosculpting);
+            GUI.contentColor = settings.ResearchLevelBiosculpting > TechLevel.Industrial ? Color.grey : Color.white;
             listing2.AddLabeledCheckbox("Inglix.Require_HiTechBench".Translate(), ref settings.ResearchBiosculptingHiTechResearchBench);
+            GUI.contentColor = settings.ResearchBiosculptingHiTechResearchBench && settings.ResearchLevelBiosculpting < TechLevel.Ultra ? Color.white : Color.gray;
             listing2.AddLabeledCheckbox("Inglix.Require_MultiAnalyzer".Translate(), ref settings.ResearchBiosculptingMultiAnalyzer);
+            GUI.contentColor = Color.white;
             listing2.NewColumn();
             listing2.AddLabeledRadioList<TechLevel>("Inglix.Bioregeneration_Research".Translate(), techLevels, ref settings.ResearchLevelBioregeneration);
+            GUI.contentColor = settings.ResearchLevelBioregeneration > TechLevel.Industrial ? Color.grey : Color.white;
             listing2.AddLabeledCheckbox("Inglix.Require_HiTechBench".Translate(), ref settings.ResearchBioregenerationHiTechResearchBench);
+            GUI.contentColor = settings.ResearchBiosculptingHiTechResearchBench && settings.ResearchLevelBioregeneration < TechLevel.Ultra ? Color.white : Color.gray;
             listing2.AddLabeledCheckbox("Inglix.Require_MultiAnalyzer".Translate(), ref settings.ResearchBioregenerationMultiAnalyzer);
+            GUI.contentColor = Color.white;
             listing2.End();
 
             // Enforce logical inheritence of requirements
@@ -298,11 +316,17 @@ namespace FasterBiosculpterPod
             listing.End();
             Widgets.EndScrollView();
 
-            Rect buttonsRect = canvas.BottomPartPixels(100f);
-            buttonsRect.height = 35f;
+            Rect buttonsRect = canvas.BottomPartPixels(115f);
+            buttonsRect.height = 47f;
+            Listing_Standard lineListing = new Listing_Standard();
+            lineListing.Begin(buttonsRect);
+            lineListing.AddHorizontalLine(ListingStandardHelper.Gap);
+            lineListing.End();
+            buttonsRect.y += 12f;
             Listing_Standard footerListing = new Listing_Standard();
             footerListing.ColumnWidth = ((canvas.width - 30) / 2) - 2;
             footerListing.Begin(buttonsRect);
+            
             footerListing.AddLabeledCheckbox("Inglix.Use_Quadrums".Translate(), ref settings.UseQuadrumsForDuration);
             footerListing.NewColumn();
             footerListing.AddLabeledCheckbox("Inglix.Use_Hours".Translate(), ref settings.UseHoursForDuration);
@@ -336,6 +360,7 @@ namespace FasterBiosculpterPod
                 settings.PowerConsumption = FasterBiosculpterPod_Settings.RecommendedPowerConsumption;
                 settings.StandbyConsumption = FasterBiosculpterPod_Settings.RecommendedStandbyConsumption;
 
+                settings.EnableBuildCostSettings = false;
                 settings.SteelCost = FasterBiosculpterPod_Settings.RecommendedSteelCost;
                 settings.ComponentIndustrialCost = FasterBiosculpterPod_Settings.RecommendedComponentIndustrialCost;
                 settings.PlasteelCost = FasterBiosculpterPod_Settings.RecommendedPlasteelCost;
@@ -379,6 +404,7 @@ namespace FasterBiosculpterPod
                 settings.PowerConsumption = FasterBiosculpterPod_Settings.VanillaPowerConsumption;
                 settings.StandbyConsumption = FasterBiosculpterPod_Settings.VanillaStandbyConsumption;
 
+                settings.EnableBuildCostSettings = false;
                 settings.SteelCost = FasterBiosculpterPod_Settings.VanillaSteelCost;
                 settings.ComponentIndustrialCost = FasterBiosculpterPod_Settings.VanillaComponentIndustrialCost;
                 settings.PlasteelCost = FasterBiosculpterPod_Settings.VanillaPlasteelCost;
@@ -399,10 +425,12 @@ namespace FasterBiosculpterPod
 
                 ApplySettings();
             }
-            buttonsRect.y += 35f;
+            buttonsRect.y += 47f;
             buttonsRect.x = 0f;
             buttonsRect.width = canvas.width;
-            Widgets.Label(buttonsRect, "Version: " + modVersion);
+            GUI.contentColor = Color.gray;
+            Widgets.Label(buttonsRect, "Inglix.Installed_Version".Translate() + ": " + modVersion);
+            GUI.contentColor = Color.white;
 
             base.DoSettingsWindowContents(canvas);
         }
@@ -427,11 +455,11 @@ namespace FasterBiosculpterPod
         public static void ApplySettings()
         {
             Harmony harmony = new Harmony("Inglix.FasterBiosculpterPod");
+            harmony.UnpatchAll("Inglix.FasterBiosculpterPod");
             harmony.PatchAll();
-
             if (LoadedModManager.RunningModsListForReading.Find(mod => mod.PackageId.EqualsIgnoreCase("Troopersmith1.AgeMatters")) != null)
             {
-                Log.Warning("Age Matters mod adds a custom version of CompProperties_BiosculpterPod_AgeReversalCycle instead of patching the original. In order to apply settings for the age reversal cycle, the durationDays and nutritionRequired fields must be updated using reflection, and a transpiler must be run against their custom CycleCompleted method.");
+                Log.Warning("Age Matters mod adds a custom version of CompProperties_BiosculpterPod_AgeReversalCycle instead of patching the original. In order to apply settings for the age reversal cycle, the durationDays field must be updated using reflection, and a transpiler must be run against their custom CycleCompleted method.");
                 UpdateFieldUsingReflection("CompProperties_BiosculpterPod_AgeReversalCycle", "durationDays", settings.AgeReversalCycleDays);
                 Type ageReversalCycleType = Type.GetType("AgeMatters.CompBiosculpterPod_AgeReversalCycle,AgeMatters");
                 Log.Message("AGE REVERSAL CYCLE TYPE FOUND: " + ageReversalCycleType.FullName);
@@ -444,6 +472,7 @@ namespace FasterBiosculpterPod
             else
             {
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).durationDays = settings.AgeReversalCycleDays;
+                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).description = "Reverse " + ConvertDaysToTicks(settings.AgeReversalDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration) + " of aging.";
             }
 
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_MedicCycle)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.MedicCycleDays;
@@ -473,12 +502,20 @@ namespace FasterBiosculpterPod
 
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod)) as CompProperties_BiosculpterPod).biotunedCycleSpeedFactor = settings.BiotunedCycleSpeedFactor;
 
-            UpdateCostListItem(settings.SteelCost, ThingDefOf.Steel);
-            UpdateCostListItem(settings.ComponentIndustrialCost, ThingDefOf.ComponentIndustrial);
-            UpdateCostListItem(settings.PlasteelCost, ThingDefOf.Plasteel);
-            UpdateCostListItem(settings.ComponentSpacerCost, ThingDefOf.ComponentSpacer);
-            UpdateCostListItem(settings.UraniumCost, ThingDefOf.Uranium);
-            DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.WorkToBuild;
+            if (settings.EnableBuildCostSettings)
+            {
+                DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Clear();
+                UpdateCostListItem(settings.SteelCost, ThingDefOf.Steel);
+                UpdateCostListItem(settings.ComponentIndustrialCost, ThingDefOf.ComponentIndustrial);
+                UpdateCostListItem(settings.PlasteelCost, ThingDefOf.Plasteel);
+                UpdateCostListItem(settings.ComponentSpacerCost, ThingDefOf.ComponentSpacer);
+                UpdateCostListItem(settings.UraniumCost, ThingDefOf.Uranium);
+                DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.WorkToBuild;
+            }
+            else
+            {
+                RestoreInitialCostList();
+            }
 
             ResearchProjectDef biosculpting = DefDatabase<ResearchProjectDef>.GetNamed("Biosculpting", true);
             biosculpting.baseCost = settings.ResearchBaseCostBiosculpting;
@@ -564,6 +601,23 @@ namespace FasterBiosculpterPod
             }
         }
 
+        private static void RestoreInitialCostList()
+        {
+            DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Clear();
+            DeepCopyCostList(settings.InitialCostList, out DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList);
+            DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.InitialWorkToBuild;
+        }
+
+        public static void DeepCopyCostList(List<ThingDefCountClass> originalList, out List<ThingDefCountClass> newList)
+        {
+            newList = new List<ThingDefCountClass>();
+            foreach(ThingDefCountClass oldCost in originalList)
+            {
+                ThingDefCountClass newCost = new ThingDefCountClass(oldCost.thingDef, oldCost.count);
+                newList.Add(newCost);
+            }
+        }
+
         public override string SettingsCategory()
         {
             return "Inglix.Faster_Biosculpter_Pod".Translate();
@@ -576,6 +630,8 @@ namespace FasterBiosculpterPod
     {
         static FasterBiosculpterPod_Patches()
         {
+            FasterBiosculpterPod_Mod.DeepCopyCostList(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList, out FasterBiosculpterPod_Mod.settings.InitialCostList);
+            FasterBiosculpterPod_Mod.settings.InitialWorkToBuild = DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value;
             FasterBiosculpterPod_Mod.ApplySettings();
         }
     }
@@ -587,12 +643,40 @@ namespace FasterBiosculpterPod
         static bool Prefix(CompBiosculpterPod __instance, Pawn newBiotunedTo)
         {
             FieldInfo biotunedTo = __instance.GetType().GetField("biotunedTo", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo autoAgeReversal = __instance.GetType().GetField("autoAgeReversal", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo cachedBiotunedPods = __instance.GetType().GetField("cachedBiotunedPods", BindingFlags.NonPublic | BindingFlags.Static);
+            FieldInfo biotunedCountdownTicks = __instance.GetType().GetField("biotunedCountdownTicks", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            if (newBiotunedTo == biotunedTo.GetValue(__instance))
+            if (newBiotunedTo != biotunedTo.GetValue(__instance))
             {
-                return false;
+                autoAgeReversal.SetValue(__instance, false);
             }
-            return true;
+            if (biotunedTo.GetValue(__instance) != null && ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null)).ContainsKey((Pawn)biotunedTo.GetValue(__instance)))
+            {
+                //cachedBiotunedPods[biotunedTo].Remove(this);
+                ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[(Pawn)biotunedTo.GetValue(__instance)].Remove(__instance);
+            }
+            if (newBiotunedTo != null && !((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null)).ContainsKey(newBiotunedTo))
+            {
+                ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo] = new List<CompBiosculpterPod>();
+            }
+            if (newBiotunedTo != null && !((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo].Contains(__instance))
+            {
+                ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo].Add(__instance);
+            }
+            if (newBiotunedTo != null && newBiotunedTo != biotunedTo.GetValue(__instance))
+            {
+                biotunedCountdownTicks.SetValue(__instance, FasterBiosculpterPod_Mod.ConvertDaysToTicks(FasterBiosculpterPod_Mod.settings.BiotuningDurationDays));
+            }
+            biotunedTo.SetValue(__instance, newBiotunedTo);
+
+            return false;
+
+            //if (newBiotunedTo == biotunedTo.GetValue(__instance))
+            //{
+            //    return false;
+            //}
+            //return true;
         }
     }
 
@@ -605,10 +689,10 @@ namespace FasterBiosculpterPod
             yield return AccessTools.Method(typeof(CompBiosculpterPod), "get_RequiredNutritionRemaining");
             yield return AccessTools.Method(typeof(CompBiosculpterPod), "CompInspectStringExtra");
             yield return AccessTools.Method(typeof(CompBiosculpterPod), "<CompGetGizmosExtra>b__88_9");
-            yield return AccessTools.Method(typeof(CompBiosculpterPod).GetNestedType("<CompGetGizmosExtra>d__88", BindingFlags.NonPublic), "MoveNext");
+            yield return AccessTools.Method(typeof(CompBiosculpterPod).GetNestedType("<CompGetGizmosExtra>d__88", BindingFlags.NonPublic), "MoveNext"); // Disables the dev gizmo "fill nutrition and cycle requirements" when configured amount of nutrition is loaded
             yield return AccessTools.Method(typeof(CompBiosculpterPod), "LiquifyNutrition");
         }
-            
+
         [HarmonyTranspiler]
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
