@@ -472,7 +472,8 @@ namespace FasterBiosculpterPod
             else
             {
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).durationDays = settings.AgeReversalCycleDays;
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).description = "Reverse " + ConvertDaysToTicks(settings.AgeReversalDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration) + " of aging.";
+                // This is now handled by CompProperties_BiosculpterPod_AgeReversalCycle.Description; see new transpiler TranspileDescription
+                //(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).description = "Reverse " + ConvertDaysToTicks(settings.AgeReversalDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration) + " of aging.";
             }
 
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && x.compClass == typeof(CompBiosculpterPod_MedicCycle)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.MedicCycleDays;
@@ -640,49 +641,49 @@ namespace FasterBiosculpterPod
         }
     }
 
-    [HarmonyPatch(typeof(CompBiosculpterPod))]
-    [HarmonyPatch(nameof(CompBiosculpterPod.SetBiotuned))]
-    class PatchSetBiotuned
-    {
-        static bool Prefix(CompBiosculpterPod __instance, Pawn newBiotunedTo)
-        {
-            FieldInfo biotunedTo = __instance.GetType().GetField("biotunedTo", BindingFlags.NonPublic | BindingFlags.Instance);
-            FieldInfo autoAgeReversal = __instance.GetType().GetField("autoAgeReversal", BindingFlags.NonPublic | BindingFlags.Instance);
-            FieldInfo cachedBiotunedPods = __instance.GetType().GetField("cachedBiotunedPods", BindingFlags.NonPublic | BindingFlags.Static);
-            FieldInfo biotunedCountdownTicks = __instance.GetType().GetField("biotunedCountdownTicks", BindingFlags.NonPublic | BindingFlags.Instance);
+    //[HarmonyPatch(typeof(CompBiosculpterPod))]
+    //[HarmonyPatch(nameof(CompBiosculpterPod.SetBiotuned))]
+    //class PatchSetBiotuned
+    //{
+    //    static bool Prefix(CompBiosculpterPod __instance, Pawn newBiotunedTo)
+    //    {
+    //        FieldInfo biotunedTo = __instance.GetType().GetField("biotunedTo", BindingFlags.NonPublic | BindingFlags.Instance);
+    //        FieldInfo autoAgeReversal = __instance.GetType().GetField("autoAgeReversal", BindingFlags.NonPublic | BindingFlags.Instance);
+    //        FieldInfo cachedBiotunedPods = __instance.GetType().GetField("cachedBiotunedPods", BindingFlags.NonPublic | BindingFlags.Static);
+    //        FieldInfo biotunedCountdownTicks = __instance.GetType().GetField("biotunedCountdownTicks", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            if (newBiotunedTo != biotunedTo.GetValue(__instance))
-            {
-                autoAgeReversal.SetValue(__instance, false);
-            }
-            if (biotunedTo.GetValue(__instance) != null && ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null)).ContainsKey((Pawn)biotunedTo.GetValue(__instance)))
-            {
-                //cachedBiotunedPods[biotunedTo].Remove(this);
-                ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[(Pawn)biotunedTo.GetValue(__instance)].Remove(__instance);
-            }
-            if (newBiotunedTo != null && !((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null)).ContainsKey(newBiotunedTo))
-            {
-                ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo] = new List<CompBiosculpterPod>();
-            }
-            if (newBiotunedTo != null && !((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo].Contains(__instance))
-            {
-                ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo].Add(__instance);
-            }
-            if (newBiotunedTo != null && newBiotunedTo != biotunedTo.GetValue(__instance))
-            {
-                biotunedCountdownTicks.SetValue(__instance, FasterBiosculpterPod_Mod.ConvertDaysToTicks(FasterBiosculpterPod_Mod.settings.BiotuningDurationDays));
-            }
-            biotunedTo.SetValue(__instance, newBiotunedTo);
+    //        if (newBiotunedTo != biotunedTo.GetValue(__instance))
+    //        {
+    //            autoAgeReversal.SetValue(__instance, false);
+    //        }
+    //        if (biotunedTo.GetValue(__instance) != null && ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null)).ContainsKey((Pawn)biotunedTo.GetValue(__instance)))
+    //        {
+    //            //cachedBiotunedPods[biotunedTo].Remove(this);
+    //            ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[(Pawn)biotunedTo.GetValue(__instance)].Remove(__instance);
+    //        }
+    //        if (newBiotunedTo != null && !((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null)).ContainsKey(newBiotunedTo))
+    //        {
+    //            ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo] = new List<CompBiosculpterPod>();
+    //        }
+    //        if (newBiotunedTo != null && !((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo].Contains(__instance))
+    //        {
+    //            ((Dictionary<Pawn, List<CompBiosculpterPod>>)cachedBiotunedPods.GetValue(null))[newBiotunedTo].Add(__instance);
+    //        }
+    //        if (newBiotunedTo != null && newBiotunedTo != biotunedTo.GetValue(__instance))
+    //        {
+    //            biotunedCountdownTicks.SetValue(__instance, FasterBiosculpterPod_Mod.ConvertDaysToTicks(FasterBiosculpterPod_Mod.settings.BiotuningDurationDays));
+    //        }
+    //        biotunedTo.SetValue(__instance, newBiotunedTo);
 
-            return false;
+    //        return false;
 
-            //if (newBiotunedTo == biotunedTo.GetValue(__instance))
-            //{
-            //    return false;
-            //}
-            //return true;
-        }
-    }
+    //        //if (newBiotunedTo == biotunedTo.GetValue(__instance))
+    //        //{
+    //        //    return false;
+    //        //}
+    //        //return true;
+    //    }
+    //}
 
     [HarmonyPatch]
     class TranspileNutritionRequired
@@ -756,6 +757,26 @@ namespace FasterBiosculpterPod
 
     [HarmonyPatch(typeof(CompBiosculpterPod_AgeReversalCycle), nameof(CompBiosculpterPod_AgeReversalCycle.CycleCompleted))]
     class TranspileCycleCompleted
+    {
+        [HarmonyTranspiler]
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            List<CodeInstruction> instructionList = instructions.ToList();
+            for (var i = 0; i < instructionList.Count; i++)
+            {
+                if (instructionList[i].opcode == OpCodes.Ldc_R4 && (Single)instructionList[i].operand == (Single)FasterBiosculpterPod_Settings.VanillaAgeReversalTicks)
+                {
+                    instructionList[i].operand = (Single)FasterBiosculpterPod_Mod.ConvertDaysToTicks(LoadedModManager.GetMod<FasterBiosculpterPod_Mod>().GetSettings<FasterBiosculpterPod_Settings>().AgeReversalDays);
+                    break;
+                }
+            }
+
+            return instructionList.AsEnumerable();
+        }
+    }
+
+    [HarmonyPatch(typeof(CompBiosculpterPod_AgeReversalCycle), nameof(CompBiosculpterPod_AgeReversalCycle.Description))]
+    class TranspileDescription
     {
         [HarmonyTranspiler]
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
