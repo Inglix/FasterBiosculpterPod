@@ -498,7 +498,10 @@ namespace FasterBiosculpterPod
             FieldInfo basePowerConsumptionField = powerType.GetField("basePowerConsumption", BindingFlags.NonPublic | BindingFlags.Instance);
             basePowerConsumptionField.SetValue(power, settings.PowerConsumption);
             //(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power).basePowerConsumption = settings.PowerConsumption;
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod)) as CompProperties_BiosculpterPod).powerConsumptionStandby = settings.StandbyConsumption;
+            
+            // They replaced CompProperties_BiosculpterPod.powerConsumptionStandby with CompProperties_Power.idlePowerDraw
+            //(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod)) as CompProperties_BiosculpterPod).powerConsumptionStandby = settings.StandbyConsumption;
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power).idlePowerDraw = settings.StandbyConsumption;
 
             if (settings.BiotuningDurationDays > 0)
                 (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = "Inglix.Biosculpter_Description".Translate(settings.BiotuningDurationDays);
