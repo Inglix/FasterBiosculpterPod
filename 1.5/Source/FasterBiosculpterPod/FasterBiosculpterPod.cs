@@ -184,7 +184,7 @@ namespace FasterBiosculpterPod
         public FasterBiosculpterPod_Mod(ModContentPack content) : base(content)
         {
             settings = GetSettings<FasterBiosculpterPod_Settings>();
-            modVersion = modVersion.Substring(0, modVersion.LastIndexOf('.'));
+            modVersion = modVersion;//.Substring(0, modVersion.LastIndexOf('.'));
         }
 
         public override void DoSettingsWindowContents(Rect canvas)
