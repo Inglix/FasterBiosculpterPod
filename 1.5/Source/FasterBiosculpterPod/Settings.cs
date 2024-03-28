@@ -12,7 +12,7 @@ namespace FasterBiosculpterPod
         public float BioregenerationCycleMedicineUltratech = Constants.VanillaBioregenerationCycleMedicineUltratech;
         public float AgeReversalCycleDays = Constants.VanillaAgeReversalCycleDays;
         public float AgeReversalTicks = Constants.VanillaAgeReversalTicks;
-        public float AgeReversalDays = Constants.VanillaAgeReversalTicks / 60000;
+        public float AgeReversalDays = Constants.VanillaAgeReversalTicks / Constants.TicksPerDay;
         public float PleasureCycleDays = Constants.VanillaPleasureCycleDays;
         public float PleasureCycleMoodDays = Constants.VanillaPleasureCycleMoodDays;
         public float PleasureCycleMoodEffect = Constants.VanillaPleasureCycleMoodEffect;
@@ -20,7 +20,7 @@ namespace FasterBiosculpterPod
         public float NutritionRequired = Constants.VanillaNutritionRequired;
 
         public float BiotuningDurationTicks = Constants.VanillaBiotuningDurationTicks;
-        public float BiotuningDurationDays = Constants.VanillaBiotuningDurationTicks / 60000;
+        public float BiotuningDurationDays = Constants.VanillaBiotuningDurationTicks / Constants.TicksPerDay;
         public float BiotunedCycleSpeedFactor = Constants.VanillaBiotunedCycleSpeedFactor;
 
         public float PowerConsumption = Constants.VanillaPowerConsumption;
@@ -57,7 +57,7 @@ namespace FasterBiosculpterPod
 
             Scribe_Values.Look(ref AgeReversalCycleDays, "ageReversalCycleDays", Constants.VanillaAgeReversalCycleDays);
             Scribe_Values.Look(ref AgeReversalTicks, "ageReversalTicks", Constants.VanillaAgeReversalTicks); // Deprecated
-            Scribe_Values.Look(ref AgeReversalDays, "ageReversalDays", AgeReversalTicks / 60000);
+            Scribe_Values.Look(ref AgeReversalDays, "ageReversalDays", AgeReversalTicks / Constants.TicksPerDay);
 
             Scribe_Values.Look(ref PleasureCycleDays, "pleasureCycleDays", Constants.VanillaPleasureCycleDays);
             Scribe_Values.Look(ref PleasureCycleMoodDays, "pleasureCycleMoodDays", Constants.VanillaPleasureCycleMoodDays);
@@ -66,7 +66,7 @@ namespace FasterBiosculpterPod
             Scribe_Values.Look(ref NutritionRequired, "nutritionRequired", Constants.VanillaNutritionRequired);
 
             Scribe_Values.Look(ref BiotuningDurationTicks, "biotuningDurationTicks", Constants.VanillaBiotuningDurationTicks); // Deprecated
-            Scribe_Values.Look(ref BiotuningDurationDays, "biotuningDurationDays", BiotuningDurationTicks / 60000);
+            Scribe_Values.Look(ref BiotuningDurationDays, "biotuningDurationDays", BiotuningDurationTicks / Constants.TicksPerDay);
             Scribe_Values.Look(ref BiotunedCycleSpeedFactor, "biotunedCycleSpeedFactor", Constants.VanillaBiotunedCycleSpeedFactor);
 
             Scribe_Values.Look(ref PowerConsumption, "powerConsumption", Constants.VanillaPowerConsumption);
