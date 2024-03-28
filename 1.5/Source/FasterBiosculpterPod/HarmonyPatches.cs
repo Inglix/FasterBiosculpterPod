@@ -19,8 +19,8 @@ namespace FasterBiosculpterPod
             {
                 yield return AccessTools.Method(typeof(CompBiosculpterPod), "get_RequiredNutritionRemaining");
                 yield return AccessTools.Method(typeof(CompBiosculpterPod), "CompInspectStringExtra");
-                yield return AccessTools.Method(typeof(CompBiosculpterPod), "<CompGetGizmosExtra>b__91_9");
-                yield return AccessTools.Method(typeof(CompBiosculpterPod).GetNestedType("<CompGetGizmosExtra>d__91", BindingFlags.NonPublic), "MoveNext"); // Disables the dev gizmo "fill nutrition and cycle requirements" when configured amount of nutrition is loaded
+                yield return AccessTools.Method(typeof(CompBiosculpterPod), "<CompGetGizmosExtra>b__92_9");
+                yield return AccessTools.Method(typeof(CompBiosculpterPod).GetNestedType("<CompGetGizmosExtra>d__92", BindingFlags.NonPublic), "MoveNext"); // Disables the dev gizmo "fill nutrition and cycle requirements" when configured amount of nutrition is loaded
                 yield return AccessTools.Method(typeof(CompBiosculpterPod), "LiquifyNutrition");
             }
 
