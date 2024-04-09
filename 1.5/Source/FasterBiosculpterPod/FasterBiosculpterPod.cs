@@ -16,7 +16,11 @@ namespace FasterBiosculpterPod
     [HotSwappable]
     public class FasterBiosculpterPod : Mod
     {
+#if DEBUG
+        private readonly string _modVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+#else
         private readonly string _modVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+#endif
         public static Settings settings;
         private Vector2 scrollPosition;
 
