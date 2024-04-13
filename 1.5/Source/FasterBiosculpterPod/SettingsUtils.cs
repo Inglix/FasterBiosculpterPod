@@ -13,8 +13,6 @@ namespace FasterBiosculpterPod
     [StaticConstructorOnStartup]
     public static class SettingsUtils
     {
-        static bool isSelectiveBioregeneration;
-        
         static SettingsUtils()
         {
             FasterBiosculpterPod.glitterworldMedicineLabel = DefDatabase<ThingDef>.GetNamed("MedicineUltratech")?.label ?? "glitterworld medicine";
@@ -36,8 +34,6 @@ namespace FasterBiosculpterPod
 
             DeepCopyCostList(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList, out FasterBiosculpterPod.settings.InitialCostList);
             FasterBiosculpterPod.settings.InitialWorkToBuild = DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value;
-
-            isSelectiveBioregeneration = LoadedModManager.RunningModsListForReading.Find(mod => mod.PackageId.EqualsIgnoreCase("sambucher.selectivebioregeneration")) != null;
         }
 
         internal static void ApplyRecommendedSettings(Settings settings)
@@ -331,13 +327,15 @@ namespace FasterBiosculpterPod
 
         public static bool TryFindMedicCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
         {
-            CompProperties_BiosculpterPod_BaseCycle healingCycle;
-            if (isSelectiveBioregeneration)
-                healingCycle = bioPod.comps.Find(x => typeof(Selective_Bioregeneration.CompBiosculpterPod_TargetedMedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
-            else
-                healingCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_MedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
-            cycle = healingCycle;
-            if (healingCycle == null)
+            var medicCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_MedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            if (medicCycle == null && ModsConfig.IsActive("sambucher.selectivebioregeneration"))
+            {
+                Type targetedMedicCycleType = Type.GetType("Selective_Bioregeneration.CompBiosculpterPod_TargetedMedicCycle,Selective Bioregeneration");
+                if (targetedMedicCycleType != null)
+                    medicCycle = bioPod.comps.Find(x => targetedMedicCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            }
+            cycle = medicCycle;
+            if (medicCycle == null)
                 return false;
             else
                 return true;
@@ -345,11 +343,13 @@ namespace FasterBiosculpterPod
 
         public static bool TryFindRegenerationCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
         {
-            CompProperties_BiosculpterPod_BaseCycle regenerationCycle;
-            if (isSelectiveBioregeneration)
-                regenerationCycle = bioPod.comps.Find(x => typeof(Selective_Bioregeneration.CompBiosculpterPod_TargetedRegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
-            else
-                regenerationCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            var regenerationCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            if (regenerationCycle == null && ModsConfig.IsActive("sambucher.selectivebioregeneration"))
+            {
+                Type targetedRegenCycleType = Type.GetType("Selective_Bioregeneration.CompBiosculpterPod_TargetedRegenerationCycle,Selective Bioregeneration");
+                if (targetedRegenCycleType != null)
+                    regenerationCycle = bioPod.comps.Find(x => targetedRegenCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            }
             cycle = regenerationCycle;
             if (regenerationCycle == null)
                 return false;

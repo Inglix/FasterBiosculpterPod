@@ -42,9 +42,6 @@
     <Reference Include="1SettingsHelper-Inglix">
       <HintPath>..\..\..\..\..\SettingsHelper\Assemblies\1SettingsHelper-Inglix.dll</HintPath>
     </Reference>
-    <Reference Include="Selective Bioregeneration">
-      <HintPath>..\..\..\..\Creative\Modding\RimWorld\Selective Bioregeneration\Selective Bioregeneration\1.5\Assemblies\Selective Bioregeneration.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
