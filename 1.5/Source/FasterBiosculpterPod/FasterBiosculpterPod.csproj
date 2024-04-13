@@ -305,6 +305,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="FasterBiosculpterPod_PostInit.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="HarmonyPatches.cs" />
     <Compile Include="FasterBiosculpterPod.cs" />
