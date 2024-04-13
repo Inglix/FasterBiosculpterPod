@@ -13,6 +13,7 @@ namespace FasterBiosculpterPod
     [StaticConstructorOnStartup]
     public static class SettingsUtils
     {
+        static bool isSelectiveBioregeneration;
         
         static SettingsUtils()
         {
@@ -35,6 +36,8 @@ namespace FasterBiosculpterPod
 
             DeepCopyCostList(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList, out FasterBiosculpterPod.settings.InitialCostList);
             FasterBiosculpterPod.settings.InitialWorkToBuild = DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value;
+
+            isSelectiveBioregeneration = LoadedModManager.RunningModsListForReading.Find(mod => mod.PackageId.EqualsIgnoreCase("sambucher.selectivebioregeneration")) != null;
         }
 
         internal static void ApplyRecommendedSettings(Settings settings)
@@ -138,7 +141,7 @@ namespace FasterBiosculpterPod
                 return;
             }
 
-            if(TryFindHealingCycle(bioPod, out var healingCycle))
+            if(TryFindMedicCycle(bioPod, out var healingCycle))
             {
                 healingCycle.durationDays = settings.MedicCycleDays;
 
@@ -326,9 +329,13 @@ namespace FasterBiosculpterPod
             return ((int)(days * 60000f));
         }
 
-        public static bool TryFindHealingCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
+        public static bool TryFindMedicCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
         {
-            var healingCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_MedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            CompProperties_BiosculpterPod_BaseCycle healingCycle;
+            if (isSelectiveBioregeneration)
+                healingCycle = bioPod.comps.Find(x => typeof(Selective_Bioregeneration.CompBiosculpterPod_TargetedMedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            else
+                healingCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_MedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
             cycle = healingCycle;
             if (healingCycle == null)
                 return false;
@@ -338,7 +345,11 @@ namespace FasterBiosculpterPod
 
         public static bool TryFindRegenerationCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
         {
-            var regenerationCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            CompProperties_BiosculpterPod_BaseCycle regenerationCycle;
+            if (isSelectiveBioregeneration)
+                regenerationCycle = bioPod.comps.Find(x => typeof(Selective_Bioregeneration.CompBiosculpterPod_TargetedRegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            else
+                regenerationCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
             cycle = regenerationCycle;
             if (regenerationCycle == null)
                 return false;
