@@ -42,6 +42,10 @@
       <HintPath>..\..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Selective Bioregeneration">
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Users\Maxim\OneDrive\Desktop\Creative\Modding\RimWorld\Selective Bioregeneration\Selective Bioregeneration\1.4\Assemblies\Selective Bioregeneration.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

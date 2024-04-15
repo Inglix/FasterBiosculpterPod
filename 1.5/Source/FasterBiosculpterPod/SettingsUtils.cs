@@ -11,9 +11,8 @@ using Verse;
 namespace FasterBiosculpterPod
 {
     [StaticConstructorOnStartup]
-    internal static class SettingsUtils
+    public static class SettingsUtils
     {
-        
         static SettingsUtils()
         {
             FasterBiosculpterPod.glitterworldMedicineLabel = DefDatabase<ThingDef>.GetNamed("MedicineUltratech")?.label ?? "glitterworld medicine";
@@ -35,19 +34,6 @@ namespace FasterBiosculpterPod
 
             DeepCopyCostList(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList, out FasterBiosculpterPod.settings.InitialCostList);
             FasterBiosculpterPod.settings.InitialWorkToBuild = DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value;
-            ApplySettings(FasterBiosculpterPod.settings);
-        }
-
-        /**
-          * Hacky means of providing compatibility for mods which replace comps with custom ones instead of patching them using Harmony.
-          */
-        private static void UpdateFieldUsingReflection(string typeName, string fieldName, float newFieldValue)
-        {
-            List<CompProperties> comps = DefDatabase<ThingDef>.GetNamed("BiosculpterPod").comps;
-            CompProperties compProperty = DefDatabase<ThingDef>.GetNamed("BiosculpterPod").comps.Find(x => x.GetType().FullName.Contains(typeName));
-            var convertedComp = Convert.ChangeType(compProperty, compProperty.GetType());
-            FieldInfo field = convertedComp.GetType().GetField(fieldName);
-            field.SetValue(convertedComp, newFieldValue);
         }
 
         internal static void ApplyRecommendedSettings(Settings settings)
@@ -143,72 +129,94 @@ namespace FasterBiosculpterPod
             Harmony harmony = new Harmony("Inglix.FasterBiosculpterPod");
             harmony.UnpatchAll("Inglix.FasterBiosculpterPod");
             harmony.PatchAll();
-            if (LoadedModManager.RunningModsListForReading.Find(mod => mod.PackageId.EqualsIgnoreCase("Troopersmith1.AgeMatters")) != null)
+
+            var bioPod = ThingDef.Named("BiosculpterPod");
+            if(bioPod == null)
             {
-                Log.Warning("Age Matters mod adds a custom version of CompProperties_BiosculpterPod_AgeReversalCycle instead of patching the original. In order to apply settings for the age reversal cycle, the durationDays field must be updated using reflection, and a transpiler must be run against their custom CycleCompleted method.");
-                UpdateFieldUsingReflection("CompProperties_BiosculpterPod_AgeReversalCycle", "durationDays", settings.AgeReversalCycleDays);
-                Type ageReversalCycleType = Type.GetType("AgeMatters.CompBiosculpterPod_AgeReversalCycle,AgeMatters");
-                Log.Message("AGE REVERSAL CYCLE TYPE FOUND: " + ageReversalCycleType.FullName);
-                Type harmonyClassType = typeof(HarmonyPatches.CycleCompletedTranspiler);
-                Log.Message("HARMONY CLASS TYPE FOUND: " + harmonyClassType.FullName);
-                MethodInfo transpiler = harmonyClassType.GetMethod("Transpiler", BindingFlags.Static | BindingFlags.NonPublic);
-                Log.Message("TRANSPILER FOUND: " + transpiler.Name);
-                harmony.Patch(ageReversalCycleType.GetMethod("CycleCompleted"), transpiler: new HarmonyMethod(transpiler));
+                Log.Error("Faster Biosculpter Pod: Could not find BiosculpterPod to patch.");
+                return;
             }
-            else
+
+            if(TryFindMedicCycle(bioPod, out var healingCycle))
             {
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).durationDays = settings.AgeReversalCycleDays;
+                healingCycle.durationDays = settings.MedicCycleDays;
+
+            }
+
+            if (TryFindRegenerationCycle(bioPod, out var regenerationCycle))
+            {
+                regenerationCycle.durationDays = settings.BioregenerationCycleDays;
+                if (settings.BioregenerationCycleMedicineUltratech > 0f)
+                {
+                    if (regenerationCycle.extraRequiredIngredients == null)
+                        regenerationCycle.extraRequiredIngredients = new List<ThingDefCountClass>();
+
+                    //remove base medicine cost only (in case of mods)
+                    regenerationCycle.extraRequiredIngredients.RemoveAll(tc => tc.thingDef == ThingDefOf.MedicineUltratech);
+
+                    ThingDefCountClass ultratechMedicine = new ThingDefCountClass(ThingDefOf.MedicineUltratech, (int)settings.BioregenerationCycleMedicineUltratech);
+                    regenerationCycle.extraRequiredIngredients.Add(ultratechMedicine);
+                }
+            }
+
+            if (TryFindPleasureCycle(bioPod, out var pleasureCycle))
+            {
+                pleasureCycle.durationDays = settings.PleasureCycleDays;
+
+                ThoughtDefOf.BiosculpterPleasure.durationDays = settings.PleasureCycleMoodDays;
+                ThoughtDefOf.BiosculpterPleasure.stages[0].baseMoodEffect = settings.PleasureCycleMoodEffect;
+            }
+
+            if (TryFindAgeReversalCycle(bioPod, out var ageReversalCycle))
+            {
+                ageReversalCycle.durationDays = settings.AgeReversalCycleDays;
+
                 // This is now handled by CompProperties_BiosculpterPod_AgeReversalCycle.Description; see new transpiler TranspileDescription
-                //(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).description = "Reverse " + ConvertDaysToTicks(settings.AgeReversalDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration) + " of aging.";
+                //bioPod.comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).description = "Reverse " + ConvertDaysToTicks(settings.AgeReversalDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration) + " of aging.";
+
+                if (ModsConfig.IsActive("Troopersmith1.AgeMatters"))
+                {
+                    Log.Warning("Age Matters mod adds a custom version of CompProperties_BiosculpterPod_AgeReversalCycle instead of patching the original. In order to apply settings for the age reversal cycle a transpiler must be run against their custom CycleCompleted method.");
+                    Type ageReversalCycleType = Type.GetType("AgeMatters.CompBiosculpterPod_AgeReversalCycle,AgeMatters");
+                    Log.Message("AGE REVERSAL CYCLE TYPE FOUND: " + ageReversalCycleType.FullName);
+                    Type harmonyClassType = typeof(HarmonyPatches.CycleCompletedTranspiler);
+                    Log.Message("HARMONY CLASS TYPE FOUND: " + harmonyClassType.FullName);
+                    MethodInfo transpiler = harmonyClassType.GetMethod("Transpiler", BindingFlags.Static | BindingFlags.NonPublic);
+                    Log.Message("TRANSPILER FOUND: " + transpiler.Name);
+                    harmony.Patch(ageReversalCycleType.GetMethod("CycleCompleted"), transpiler: new HarmonyMethod(transpiler));
+                }
             }
 
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && typeof(CompBiosculpterPod_MedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.MedicCycleDays;
 
-
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.BioregenerationCycleDays;
-
-            List<ThingDefCountClass> extraRequiredIngredients = new List<ThingDefCountClass>();
-            if (settings.BioregenerationCycleMedicineUltratech > 0f)
-            {
-                ThingDefCountClass ultratechMedicine = new ThingDefCountClass(ThingDefOf.MedicineUltratech, (int)settings.BioregenerationCycleMedicineUltratech);
-                extraRequiredIngredients.Add(ultratechMedicine);
-            }
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).extraRequiredIngredients = extraRequiredIngredients;
-
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_PleasureCycle)) as CompProperties_BiosculpterPod_PleasureCycle).durationDays = settings.PleasureCycleDays;
-            DefDatabase<ThoughtDef>.GetNamed("BiosculpterPleasure", true).durationDays = settings.PleasureCycleMoodDays;
-            DefDatabase<ThoughtDef>.GetNamed("BiosculpterPleasure", true).stages[0].baseMoodEffect = settings.PleasureCycleMoodEffect;
-
-            CompProperties_Power power = (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power);
-            Type powerType = typeof(CompProperties_Power);
-            FieldInfo basePowerConsumptionField = powerType.GetField("basePowerConsumption", BindingFlags.NonPublic | BindingFlags.Instance);
-            basePowerConsumptionField.SetValue(power, settings.PowerConsumption);
-            //(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power).basePowerConsumption = settings.PowerConsumption;
+            CompProperties_Power power = bioPod.comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power;
+            //power.basePowerConsumption = settings.PowerConsumption;
+            AccessTools.Field(typeof(CompProperties_Power), "basePowerConsumption").SetValue(power, settings.PowerConsumption);
 
             // They replaced CompProperties_BiosculpterPod.powerConsumptionStandby with CompProperties_Power.idlePowerDraw
-            //(DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod)) as CompProperties_BiosculpterPod).powerConsumptionStandby = settings.StandbyConsumption;
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power).idlePowerDraw = settings.StandbyConsumption;
+            //power.powerConsumptionStandby = settings.StandbyConsumption;
+            power.idlePowerDraw = settings.StandbyConsumption;
 
             if (settings.BiotuningDurationDays > 0)
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = "Inglix.Biosculpter_Description".Translate(settings.BiotuningDurationDays);
+                bioPod.description = "Inglix.Biosculpter_Description".Translate(settings.BiotuningDurationDays);
             else
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true)).description = "Inglix.Biosculpter_Description_No_Biotuning".Translate();
+                bioPod.description = "Inglix.Biosculpter_Description_No_Biotuning".Translate();
 
-            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod)) as CompProperties_BiosculpterPod).biotunedCycleSpeedFactor = settings.BiotunedCycleSpeedFactor;
+            var podComp = bioPod.comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod)) as CompProperties_BiosculpterPod;
+            podComp.biotunedCycleSpeedFactor = settings.BiotunedCycleSpeedFactor;
 
             if (settings.EnableBuildCostSettings)
             {
-                DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Clear();
-                UpdateCostListItem(settings.SteelCost, ThingDefOf.Steel);
-                UpdateCostListItem(settings.ComponentIndustrialCost, ThingDefOf.ComponentIndustrial);
-                UpdateCostListItem(settings.PlasteelCost, ThingDefOf.Plasteel);
-                UpdateCostListItem(settings.ComponentSpacerCost, ThingDefOf.ComponentSpacer);
-                UpdateCostListItem(settings.UraniumCost, ThingDefOf.Uranium);
-                DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.WorkToBuild;
+                bioPod.costList.Clear();
+                UpdateCostListItem(bioPod, settings.SteelCost, ThingDefOf.Steel);
+                UpdateCostListItem(bioPod, settings.ComponentIndustrialCost, ThingDefOf.ComponentIndustrial);
+                UpdateCostListItem(bioPod, settings.PlasteelCost, ThingDefOf.Plasteel);
+                UpdateCostListItem(bioPod, settings.ComponentSpacerCost, ThingDefOf.ComponentSpacer);
+                UpdateCostListItem(bioPod, settings.UraniumCost, ThingDefOf.Uranium);
+                bioPod.statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.WorkToBuild;
             }
             else
             {
-                RestoreInitialCostList(settings);
+                RestoreInitialCostList(bioPod, settings);
             }
 
             ResearchProjectDef biosculpting = DefDatabase<ResearchProjectDef>.GetNamed("Biosculpting", true);
@@ -273,33 +281,33 @@ namespace FasterBiosculpterPod
             }
         }
 
-        private static void UpdateCostListItem(float setting, ThingDef thingDef)
+        private static void UpdateCostListItem(ThingDef bioPod, float setting, ThingDef thingDef)
         {
             if (setting > 0f)
             {
-                if (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Exists(x => x.thingDef == thingDef))
+                if (bioPod.costList.Exists(x => x.thingDef == thingDef))
                 {
-                    DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Find(x => x.thingDef == thingDef).count = (int)setting;
+                    bioPod.costList.Find(x => x.thingDef == thingDef).count = (int)setting;
                 }
                 else
                 {
-                    DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Add(new ThingDefCountClass(thingDef, (int)setting));
+                    bioPod.costList.Add(new ThingDefCountClass(thingDef, (int)setting));
                 }
             }
             else
             {
-                if (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Exists(x => x.thingDef == thingDef))
+                if (bioPod.costList.Exists(x => x.thingDef == thingDef))
                 {
-                    DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.RemoveAll(x => x.thingDef == thingDef);
+                    bioPod.costList.RemoveAll(x => x.thingDef == thingDef);
                 }
             }
         }
 
-        private static void RestoreInitialCostList(Settings settings)
+        private static void RestoreInitialCostList(ThingDef bioPod, Settings settings)
         {
-            DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList.Clear();
-            DeepCopyCostList(settings.InitialCostList, out DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).costList);
-            DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.InitialWorkToBuild;
+            bioPod.costList.Clear();
+            DeepCopyCostList(settings.InitialCostList, out bioPod.costList);
+            bioPod.statBases.Find(x => x.stat == StatDefOf.WorkToBuild).value = settings.InitialWorkToBuild;
         }
 
         public static void DeepCopyCostList(List<ThingDefCountClass> originalList, out List<ThingDefCountClass> newList)
@@ -312,9 +320,68 @@ namespace FasterBiosculpterPod
             }
         }
 
-        public static int ConvertDaysToTicks(float days)
+        internal static int ConvertDaysToTicks(float days)
         {
             return ((int)(days * 60000f));
+        }
+
+        public static bool TryFindMedicCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
+        {
+            var medicCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_MedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            if (medicCycle == null && ModsConfig.IsActive("sambucher.selectivebioregeneration"))
+            {
+                Type targetedMedicCycleType = Type.GetType("Selective_Bioregeneration.CompBiosculpterPod_TargetedMedicCycle,Selective Bioregeneration");
+                if (targetedMedicCycleType != null)
+                    medicCycle = bioPod.comps.Find(x => targetedMedicCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            }
+            cycle = medicCycle;
+            if (medicCycle == null)
+                return false;
+            else
+                return true;
+        }
+
+        public static bool TryFindRegenerationCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
+        {
+            var regenerationCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            if (regenerationCycle == null && ModsConfig.IsActive("sambucher.selectivebioregeneration"))
+            {
+                Type targetedRegenCycleType = Type.GetType("Selective_Bioregeneration.CompBiosculpterPod_TargetedRegenerationCycle,Selective Bioregeneration");
+                if (targetedRegenCycleType != null)
+                    regenerationCycle = bioPod.comps.Find(x => targetedRegenCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            }
+            cycle = regenerationCycle;
+            if (regenerationCycle == null)
+                return false;
+            else
+                return true;
+        }
+
+        public static bool TryFindPleasureCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
+        {
+            var pleasureCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_PleasureCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            cycle = pleasureCycle;
+            if (pleasureCycle == null)
+                return false;
+            else
+                return true;
+        }
+
+        public static bool TryFindAgeReversalCycle(ThingDef bioPod, out CompProperties_BiosculpterPod_BaseCycle cycle)
+        {
+            var ageReversalCycle = bioPod.comps.Find(x => typeof(CompBiosculpterPod_AgeReversalCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            if (ageReversalCycle == null && ModsConfig.IsActive("Troopersmith1.AgeMatters"))
+            {
+                Type ageMattersAgeReversalCycleType = Type.GetType("AgeMatters.CompBiosculpterPod_AgeReversalCycle,AgeMatters");
+                if (ageMattersAgeReversalCycleType != null)
+                    ageReversalCycle = bioPod.comps.Find(x => ageMattersAgeReversalCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_BaseCycle;
+            }
+
+            cycle = ageReversalCycle;
+            if (ageReversalCycle == null)
+                return false;
+            else
+                return true;
         }
     }
 }
