@@ -183,10 +183,8 @@ namespace FasterBiosculpterPod
             }
 
             CompProperties_Power power = bioPod.comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power;
-            //power.basePowerConsumption = settings.PowerConsumption;
             AccessTools.Field(typeof(CompProperties_Power), "basePowerConsumption").SetValue(power, settings.PowerConsumption);
-
-            power.idlePowerDraw = settings.StandbyConsumption;
+            AccessTools.Field(typeof(CompProperties_Power), "idlePowerDraw").SetValue(power, settings.StandbyConsumption);
 
             if (settings.BiotuningDurationDays > 0)
                 bioPod.description = "Inglix.Biosculpter_Description".Translate(settings.BiotuningDurationDays);
@@ -265,7 +263,7 @@ namespace FasterBiosculpterPod
 
         private static void RegenerateResearchTree()
         {
-            if (LoadedModManager.RunningModsListForReading.Find(mod => mod.PackageId.EqualsIgnoreCase("VinaLx.ResearchPalForked")) != null)
+            if (ModsConfig.IsActive("VinaLx.ResearchPalForked"))
             {
                 Type tree = Type.GetType("ResearchPal.Tree,ResearchTree");
                 MethodInfo resetLayout = tree.GetMethod("ResetLayout");
