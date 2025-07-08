@@ -7,7 +7,7 @@
     <li>1.4</li>
     <li>1.5</li>
   </supportedVersions>
-  <modVersion IgnoreIfNoMatchingField="True">3.0.4</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">3.0.5</modVersion>
   <packageId>Inglix.FasterBiosculptingPod</packageId>
   <modDependencies>
     <li>
