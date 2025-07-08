@@ -2,9 +2,7 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Verse;
 
@@ -146,14 +144,14 @@ namespace FasterBiosculpterPod
             if (TryFindRegenerationCycle(bioPod, out var regenerationCycle))
             {
                 regenerationCycle.durationDays = settings.BioregenerationCycleDays;
+
+                if (regenerationCycle.extraRequiredIngredients == null)
+                    regenerationCycle.extraRequiredIngredients = new List<ThingDefCountClass>();
+                //remove base medicine cost only (in case of mods)
+                regenerationCycle.extraRequiredIngredients.RemoveAll(tc => tc.thingDef == ThingDefOf.MedicineUltratech);
+
                 if (settings.BioregenerationCycleMedicineUltratech > 0f)
                 {
-                    if (regenerationCycle.extraRequiredIngredients == null)
-                        regenerationCycle.extraRequiredIngredients = new List<ThingDefCountClass>();
-
-                    //remove base medicine cost only (in case of mods)
-                    regenerationCycle.extraRequiredIngredients.RemoveAll(tc => tc.thingDef == ThingDefOf.MedicineUltratech);
-
                     ThingDefCountClass ultratechMedicine = new ThingDefCountClass(ThingDefOf.MedicineUltratech, (int)settings.BioregenerationCycleMedicineUltratech);
                     regenerationCycle.extraRequiredIngredients.Add(ultratechMedicine);
                 }
@@ -171,9 +169,6 @@ namespace FasterBiosculpterPod
             {
                 ageReversalCycle.durationDays = settings.AgeReversalCycleDays;
 
-                // This is now handled by CompProperties_BiosculpterPod_AgeReversalCycle.Description; see new transpiler TranspileDescription
-                //bioPod.comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_AgeReversalCycle)) as CompProperties_BiosculpterPod_AgeReversalCycle).description = "Reverse " + ConvertDaysToTicks(settings.AgeReversalDays).ToStringTicksToPeriodVeryVerbose(settings.UseQuadrumsForDuration, settings.UseHoursForDuration) + " of aging.";
-
                 if (ModsConfig.IsActive("Troopersmith1.AgeMatters"))
                 {
                     Log.Warning("Age Matters mod adds a custom version of CompProperties_BiosculpterPod_AgeReversalCycle instead of patching the original. In order to apply settings for the age reversal cycle a transpiler must be run against their custom CycleCompleted method.");
@@ -187,14 +182,9 @@ namespace FasterBiosculpterPod
                 }
             }
 
-
             CompProperties_Power power = bioPod.comps.Find(x => x.GetType() == typeof(CompProperties_Power)) as CompProperties_Power;
-            //power.basePowerConsumption = settings.PowerConsumption;
             AccessTools.Field(typeof(CompProperties_Power), "basePowerConsumption").SetValue(power, settings.PowerConsumption);
-
-            // They replaced CompProperties_BiosculpterPod.powerConsumptionStandby with CompProperties_Power.idlePowerDraw
-            //power.powerConsumptionStandby = settings.StandbyConsumption;
-            power.idlePowerDraw = settings.StandbyConsumption;
+            AccessTools.Field(typeof(CompProperties_Power), "idlePowerDraw").SetValue(power, settings.StandbyConsumption);
 
             if (settings.BiotuningDurationDays > 0)
                 bioPod.description = "Inglix.Biosculpter_Description".Translate(settings.BiotuningDurationDays);
@@ -273,7 +263,7 @@ namespace FasterBiosculpterPod
 
         private static void RegenerateResearchTree()
         {
-            if (LoadedModManager.RunningModsListForReading.Find(mod => mod.PackageId.EqualsIgnoreCase("VinaLx.ResearchPalForked")) != null)
+            if (ModsConfig.IsActive("VinaLx.ResearchPalForked"))
             {
                 Type tree = Type.GetType("ResearchPal.Tree,ResearchTree");
                 MethodInfo resetLayout = tree.GetMethod("ResetLayout");

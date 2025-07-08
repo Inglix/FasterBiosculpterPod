@@ -481,30 +481,31 @@ namespace FasterBiosculpterPod
 
 
             List<ThingDefCountClass> extraRequiredIngredients = new List<ThingDefCountClass>();
-            if (LoadedModManager.RunningModsListForReading.Find(mod => mod.PackageId.EqualsIgnoreCase("sambucher.selectivebioregeneration")) != null)
+            Type medicCycleType = null;
+            Type regenCycleType = null;
+            if (ModsConfig.IsActive("sambucher.selectivebioregeneration"))
             {
-                Type targetedMedicCycleType = Type.GetType("Selective_Bioregeneration.CompBiosculpterPod_TargetedMedicCycle,Selective Bioregeneration");
-                Type targetedRegenCycleType = Type.GetType("Selective_Bioregeneration.CompBiosculpterPod_TargetedRegenerationCycle,Selective Bioregeneration");
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && targetedMedicCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.MedicCycleDays;
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && targetedRegenCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.BioregenerationCycleDays;
-                if (settings.BioregenerationCycleMedicineUltratech > 0f)
-                {
-                    ThingDefCountClass ultratechMedicine = new ThingDefCountClass(ThingDefOf.MedicineUltratech, (int)settings.BioregenerationCycleMedicineUltratech);
-                    extraRequiredIngredients.Add(ultratechMedicine);
-                }
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && targetedRegenCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).extraRequiredIngredients = extraRequiredIngredients;
+                medicCycleType = Type.GetType("Selective_Bioregeneration.CompBiosculpterPod_TargetedMedicCycle,Selective Bioregeneration");
+                regenCycleType = Type.GetType("Selective_Bioregeneration.CompBiosculpterPod_TargetedRegenerationCycle,Selective Bioregeneration");
             }
-            else
+            if (medicCycleType == null) medicCycleType = typeof(CompBiosculpterPod_MedicCycle);
+            if (regenCycleType == null) regenCycleType = typeof(CompBiosculpterPod_RegenerationCycle);
+
+            if (ModsConfig.IsActive("sambucher.selectivebioregeneration"))
             {
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && typeof(CompBiosculpterPod_MedicCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.MedicCycleDays;
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.BioregenerationCycleDays;
-                if (settings.BioregenerationCycleMedicineUltratech > 0f)
-                {
-                    ThingDefCountClass ultratechMedicine = new ThingDefCountClass(ThingDefOf.MedicineUltratech, (int)settings.BioregenerationCycleMedicineUltratech);
-                    extraRequiredIngredients.Add(ultratechMedicine);
-                }
-                (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && typeof(CompBiosculpterPod_RegenerationCycle).IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).extraRequiredIngredients = extraRequiredIngredients;
+                Log.Message("Selective Bioregeneration mod detected. Using custom medic and regen cycle types.");
+                Log.Message("MEDIC CYCLE TYPE: " + medicCycleType.FullName);
+                Log.Message("REGEN CYCLE TYPE: " + regenCycleType.FullName);
             }
+
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && medicCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.MedicCycleDays;
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && regenCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).durationDays = settings.BioregenerationCycleDays;
+            if (settings.BioregenerationCycleMedicineUltratech > 0f)
+            {
+                ThingDefCountClass ultratechMedicine = new ThingDefCountClass(ThingDefOf.MedicineUltratech, (int)settings.BioregenerationCycleMedicineUltratech);
+                extraRequiredIngredients.Add(ultratechMedicine);
+            }
+            (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_HealingCycle) && regenCycleType.IsAssignableFrom(x.compClass)) as CompProperties_BiosculpterPod_HealingCycle).extraRequiredIngredients = extraRequiredIngredients;
 
             (DefDatabase<ThingDef>.GetNamed("BiosculpterPod", true).comps.Find(x => x.GetType() == typeof(CompProperties_BiosculpterPod_PleasureCycle)) as CompProperties_BiosculpterPod_PleasureCycle).durationDays = settings.PleasureCycleDays;
             DefDatabase<ThoughtDef>.GetNamed("BiosculpterPleasure", true).durationDays = settings.PleasureCycleMoodDays;
